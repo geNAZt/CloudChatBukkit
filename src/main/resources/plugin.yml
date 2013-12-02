@@ -1,5 +1,5 @@
 name: CloudChatBukkit
 author: geNAZt
 main: net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin
-version: 0.1.0
-softdepend: [Vault]
+version: 0.2.0
+softdepend: [Multiverse-Core, Vault]

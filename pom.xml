@@ -6,7 +6,7 @@
 
     <groupId>net.cubespace</groupId>
     <artifactId>CloudChatBukkit</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 
     <build>
         <defaultGoal>clean install</defaultGoal>
@@ -62,6 +62,13 @@
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
             <version>1.2.27</version>
+        </dependency>
+        <dependency>
+            <groupId>com.onarandombox.multiversecore</groupId>
+            <artifactId>Multiverse-Core</artifactId>
+            <version>2.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Multiverse-Core.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
