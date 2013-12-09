@@ -20,6 +20,8 @@ public class AffixMessage {
     }
 
     public static void send(Player player) {
+        if(plugin.getChat() == null) return;
+
         String group = plugin.getChat().getPrimaryGroup(player);
         String prefix = "";
         String suffix = "";

@@ -1,13 +1,13 @@
 package net.cubespace.CloudChatBukkit;
 
-import com.onarandombox.MultiverseCore.MultiverseCore;
 import net.cubespace.CloudChatBukkit.Listener.ChatListener;
 import net.cubespace.CloudChatBukkit.Listener.PlayerJoin;
+import net.cubespace.CloudChatBukkit.Listener.PlayerQuit;
 import net.cubespace.CloudChatBukkit.Manager.Managers;
 import net.cubespace.CloudChatBukkit.Message.AffixMessage;
 import net.cubespace.CloudChatBukkit.Message.WorldMessage;
 import net.milkbowl.vault.chat.Chat;
-import org.bukkit.plugin.Plugin;
+
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,11 +23,13 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        //Init config
+        getConfig().options().copyDefaults(true);
+        saveConfig();
+
         //Check if Vault is up
         if(!setupChat()) {
             getLogger().log(Level.SEVERE, "Could not load Vault Chat Hook");
-            setEnabled(false);
-            return;
         }
         managers = new Managers(this);
 
@@ -40,6 +42,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
         //Register the Listener
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuit(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
     }
 

@@ -21,6 +21,9 @@ public class PlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
+        if(plugin.getConfig().getBoolean("BlockPlayerJoin", false))
+            event.setJoinMessage("");
+
         AffixMessage.send(event.getPlayer());
         WorldMessage.send(event.getPlayer());
     }
