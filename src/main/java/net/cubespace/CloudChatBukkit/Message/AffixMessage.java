@@ -20,31 +20,14 @@ public class AffixMessage {
     }
 
     public static void send(Player player) {
-        if(plugin.getChat() == null) return;
-
-        String group = plugin.getChat().getPrimaryGroup(player);
-        String prefix = "";
-        String suffix = "";
-
-        if (plugin.getChat().getPlayerPrefix(player) != null) {
-            prefix = plugin.getChat().getPlayerPrefix(player);
-        } else if (plugin.getChat().getGroupPrefix(player.getWorld(), group) != null) {
-            prefix = plugin.getChat().getGroupPrefix(player.getWorld(), group);
-        }
-        if (plugin.getChat().getPlayerSuffix(player) != null) {
-            suffix = plugin.getChat().getPlayerSuffix(player);
-        } else if (plugin.getChat().getGroupSuffix(player.getWorld(), group) != null) {
-            suffix = plugin.getChat().getGroupSuffix(player.getWorld(), group);
-        }
-
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
         DataOutputStream output = new DataOutputStream(bStream);
 
         try {
             output.writeUTF("Affix");
             output.writeUTF(player.getName());
-            output.writeUTF(prefix);
-            output.writeUTF(suffix);
+            output.writeUTF(plugin.getManagers().getAffixManager().getPrefix(player));
+            output.writeUTF(plugin.getManagers().getAffixManager().getSuffix(player));
         } catch (IOException e) {
             e.printStackTrace();
         }

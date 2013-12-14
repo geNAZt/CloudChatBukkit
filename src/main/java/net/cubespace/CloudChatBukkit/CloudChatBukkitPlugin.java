@@ -1,8 +1,10 @@
 package net.cubespace.CloudChatBukkit;
 
+import net.alpenblock.bungeeperms.bukkit.BungeePerms;
 import net.cubespace.CloudChatBukkit.Listener.ChatListener;
 import net.cubespace.CloudChatBukkit.Listener.PlayerJoin;
 import net.cubespace.CloudChatBukkit.Listener.PlayerQuit;
+import net.cubespace.CloudChatBukkit.Listener.WorldChange;
 import net.cubespace.CloudChatBukkit.Manager.Managers;
 import net.cubespace.CloudChatBukkit.Message.AffixMessage;
 import net.cubespace.CloudChatBukkit.Message.WorldMessage;
@@ -18,7 +20,6 @@ import java.util.logging.Level;
  * @date Last changed: 29.11.13 12:29
  */
 public class CloudChatBukkitPlugin extends JavaPlugin {
-    private Chat chat = null;
     private Managers managers = null;
 
     @Override
@@ -27,10 +28,11 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        //Check if Vault is up
-        if(!setupChat()) {
-            getLogger().log(Level.SEVERE, "Could not load Vault Chat Hook");
+        //Check for BungeePerms
+        if(getServer().getPluginManager().isPluginEnabled("BungeePermsBukkit")) {
+
         }
+
         managers = new Managers(this);
 
         //Register all Output of this Plugin into the CloudChat Plugin Message Channel
@@ -44,23 +46,10 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         getServer().getPluginManager().registerEvents(new PlayerQuit(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
-    }
-
-    private boolean setupChat() {
-        RegisteredServiceProvider<Chat> chatProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
-
-        if (chatProvider != null) {
-            chat = chatProvider.getProvider();
-        }
-
-        return (chat != null);
+        getServer().getPluginManager().registerEvents(new WorldChange(), this);
     }
 
     public Managers getManagers() {
         return managers;
-    }
-
-    public Chat getChat() {
-        return chat;
     }
 }

@@ -3,6 +3,7 @@ package net.cubespace.CloudChatBukkit.Listener;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.CloudChatBukkit.Message.AffixMessage;
 import net.cubespace.CloudChatBukkit.Message.WorldMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -20,11 +21,16 @@ public class PlayerJoin implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(final PlayerJoinEvent event) {
         if(plugin.getConfig().getBoolean("BlockPlayerJoin", false))
             event.setJoinMessage("");
 
-        AffixMessage.send(event.getPlayer());
-        WorldMessage.send(event.getPlayer());
+        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+            @Override
+            public void run() {
+                AffixMessage.send(event.getPlayer());
+                WorldMessage.send(event.getPlayer());
+            }
+        }, 10);
     }
 }
