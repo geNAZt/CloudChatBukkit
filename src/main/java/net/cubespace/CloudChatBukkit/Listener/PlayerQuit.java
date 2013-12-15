@@ -21,5 +21,7 @@ public class PlayerQuit implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         if(plugin.getConfig().getBoolean("BlockPlayerQuit", false))
             event.setQuitMessage("");
+
+        plugin.getManagers().getAfkManager().remove(event.getPlayer());
     }
 }

@@ -15,6 +15,7 @@ public class Managers {
     private CloudChatBukkitPlugin plugin;
     private WorldManager worldManager;
     private AffixManager affixManager;
+    private AFKManager afkManager;
     private Chat chat = null;
 
     public Managers(CloudChatBukkitPlugin plugin) {
@@ -33,6 +34,9 @@ public class Managers {
         } else if (plugin.getServer().getPluginManager().isPluginEnabled("BungeePermsBukkit")) {
             affixManager = new BungeePermsManager(plugin);
         }
+
+        //AFKManager
+        afkManager = new AFKManager(plugin);
     }
 
     private boolean setupChat() {
@@ -50,5 +54,8 @@ public class Managers {
     }
     public AffixManager getAffixManager() {
         return affixManager;
+    }
+    public AFKManager getAfkManager() {
+        return afkManager;
     }
 }

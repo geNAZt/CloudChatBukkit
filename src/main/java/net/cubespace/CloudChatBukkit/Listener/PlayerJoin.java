@@ -25,6 +25,8 @@ public class PlayerJoin implements Listener {
         if(plugin.getConfig().getBoolean("BlockPlayerJoin", false))
             event.setJoinMessage("");
 
+        plugin.getManagers().getAfkManager().add(event.getPlayer());
+
         Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {

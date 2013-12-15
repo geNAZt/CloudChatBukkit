@@ -1,5 +1,6 @@
 package net.cubespace.CloudChatBukkit.Listener;
 
+import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.CloudChatBukkit.Message.AffixMessage;
 import net.cubespace.CloudChatBukkit.Message.WorldMessage;
 import org.bukkit.event.EventHandler;
@@ -12,9 +13,17 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
  * @date Last changed: 29.11.13 12:58
  */
 public class WorldChange implements Listener {
+    private CloudChatBukkitPlugin plugin;
+
+    public WorldChange(CloudChatBukkitPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onWorldChange(PlayerChangedWorldEvent event) {
         AffixMessage.send(event.getPlayer());
         WorldMessage.send(event.getPlayer());
+
+        plugin.getManagers().getAfkManager().reset(event.getPlayer());
     }
 }

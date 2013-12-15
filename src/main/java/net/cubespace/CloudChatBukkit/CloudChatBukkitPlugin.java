@@ -2,10 +2,13 @@ package net.cubespace.CloudChatBukkit;
 
 import net.alpenblock.bungeeperms.bukkit.BungeePerms;
 import net.cubespace.CloudChatBukkit.Listener.ChatListener;
+import net.cubespace.CloudChatBukkit.Listener.EntityDamage;
 import net.cubespace.CloudChatBukkit.Listener.PlayerJoin;
+import net.cubespace.CloudChatBukkit.Listener.PlayerMove;
 import net.cubespace.CloudChatBukkit.Listener.PlayerQuit;
 import net.cubespace.CloudChatBukkit.Listener.WorldChange;
 import net.cubespace.CloudChatBukkit.Manager.Managers;
+import net.cubespace.CloudChatBukkit.Message.AFKMessage;
 import net.cubespace.CloudChatBukkit.Message.AffixMessage;
 import net.cubespace.CloudChatBukkit.Message.WorldMessage;
 import net.milkbowl.vault.chat.Chat;
@@ -28,11 +31,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        //Check for BungeePerms
-        if(getServer().getPluginManager().isPluginEnabled("BungeePermsBukkit")) {
-
-        }
-
+        //Startup the Managers
         managers = new Managers(this);
 
         //Register all Output of this Plugin into the CloudChat Plugin Message Channel
@@ -41,12 +40,15 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         //Start up the Messages
         AffixMessage.init(this);
         WorldMessage.init(this);
+        AFKMessage.init(this);
 
         //Register the Listener
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         getServer().getPluginManager().registerEvents(new PlayerQuit(this), this);
-        getServer().getPluginManager().registerEvents(new ChatListener(), this);
-        getServer().getPluginManager().registerEvents(new WorldChange(), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+        getServer().getPluginManager().registerEvents(new WorldChange(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerMove(this), this);
+        getServer().getPluginManager().registerEvents(new EntityDamage(this), this);
     }
 
     public Managers getManagers() {
