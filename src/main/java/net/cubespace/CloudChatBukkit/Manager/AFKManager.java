@@ -60,6 +60,10 @@ public class AFKManager {
     }
 
     public boolean isAFK(Player player) {
+        if(!plugin.getConfig().getBoolean("HandleAFK", false)) {
+            return false;
+        }
+
         return afkStatus.get(player);
     }
 

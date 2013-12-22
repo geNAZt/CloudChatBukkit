@@ -47,8 +47,11 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerQuit(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new WorldChange(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerMove(this), this);
-        getServer().getPluginManager().registerEvents(new EntityDamage(this), this);
+
+        if(getConfig().getBoolean("HandleAFK", false)) {
+            getServer().getPluginManager().registerEvents(new PlayerMove(this), this);
+            getServer().getPluginManager().registerEvents(new EntityDamage(this), this);
+        }
     }
 
     public Managers getManagers() {
