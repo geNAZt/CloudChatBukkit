@@ -2,4 +2,4 @@ name: CloudChatBukkit
 author: geNAZt
 main: net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin
 version: 0.5.1
-softdepend: [Multiverse-Core, Vault, BungeePermsBukkit]
+softdepend: [Multiverse-Core, Vault, BungeePermsBukkit, Factions]

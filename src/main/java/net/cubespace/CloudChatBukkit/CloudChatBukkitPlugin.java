@@ -10,6 +10,7 @@ import net.cubespace.CloudChatBukkit.Listener.WorldChange;
 import net.cubespace.CloudChatBukkit.Manager.Managers;
 import net.cubespace.CloudChatBukkit.Message.AFKMessage;
 import net.cubespace.CloudChatBukkit.Message.AffixMessage;
+import net.cubespace.CloudChatBukkit.Message.FactionsChatMessage;
 import net.cubespace.CloudChatBukkit.Message.WorldMessage;
 import net.milkbowl.vault.chat.Chat;
 
@@ -24,6 +25,7 @@ import java.util.logging.Level;
  */
 public class CloudChatBukkitPlugin extends JavaPlugin {
     private Managers managers = null;
+    private boolean factions;
 
     @Override
     public void onEnable() {
@@ -41,6 +43,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         AffixMessage.init(this);
         WorldMessage.init(this);
         AFKMessage.init(this);
+        FactionsChatMessage.init(this);
 
         //Register the Listener
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
@@ -52,9 +55,16 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new PlayerMove(this), this);
             getServer().getPluginManager().registerEvents(new EntityDamage(this), this);
         }
+
+        //Check if server has Factions
+        factions = getServer().getPluginManager().isPluginEnabled("Factions");
     }
 
     public Managers getManagers() {
         return managers;
+    }
+
+    public boolean isFactions() {
+        return factions;
     }
 }
