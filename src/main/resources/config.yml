@@ -2,3 +2,5 @@ BlockPlayerJoin: false
 BlockPlayerQuit: false
 HandleAFK: false
 AutoAFK: 0
+Worlds:
+  testWorld: TW

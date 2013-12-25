@@ -67,4 +67,8 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
     public boolean isFactions() {
         return factions;
     }
+
+    public void onDisable() {
+        saveConfig();
+    }
 }

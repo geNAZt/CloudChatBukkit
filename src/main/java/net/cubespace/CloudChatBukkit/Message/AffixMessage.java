@@ -20,6 +20,11 @@ public class AffixMessage {
     }
 
     public static void send(Player player) {
+        //Check if a Affix manager is loaded
+        if(plugin.getManagers().getAffixManager() == null) {
+            return;
+        }
+
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
         DataOutputStream output = new DataOutputStream(bStream);
 
