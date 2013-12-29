@@ -1,23 +1,18 @@
 package net.cubespace.CloudChatBukkit;
 
-import net.alpenblock.bungeeperms.bukkit.BungeePerms;
 import net.cubespace.CloudChatBukkit.Listener.ChatListener;
 import net.cubespace.CloudChatBukkit.Listener.EntityDamage;
 import net.cubespace.CloudChatBukkit.Listener.PlayerJoin;
 import net.cubespace.CloudChatBukkit.Listener.PlayerMove;
 import net.cubespace.CloudChatBukkit.Listener.PlayerQuit;
+import net.cubespace.CloudChatBukkit.Listener.PluginMessageListener;
 import net.cubespace.CloudChatBukkit.Listener.WorldChange;
 import net.cubespace.CloudChatBukkit.Manager.Managers;
 import net.cubespace.CloudChatBukkit.Message.AFKMessage;
 import net.cubespace.CloudChatBukkit.Message.AffixMessage;
 import net.cubespace.CloudChatBukkit.Message.FactionsChatMessage;
 import net.cubespace.CloudChatBukkit.Message.WorldMessage;
-import net.milkbowl.vault.chat.Chat;
-
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.logging.Level;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
@@ -38,6 +33,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
         //Register all Output of this Plugin into the CloudChat Plugin Message Channel
         getServer().getMessenger().registerOutgoingPluginChannel(this, "CloudChat");
+        getServer().getMessenger().registerIncomingPluginChannel(this, "CloudChat", new PluginMessageListener(this));
 
         //Start up the Messages
         AffixMessage.init(this);
