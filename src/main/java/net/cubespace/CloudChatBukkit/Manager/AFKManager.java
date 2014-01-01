@@ -23,8 +23,8 @@ public class AFKManager {
             plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
                 @Override
                 public void run() {
-                    for(Map.Entry<Player, Long> playerLongEntry : lastPlayerAction.entrySet()) {
-                        if(!afkStatus.get(playerLongEntry.getKey()) && System.currentTimeMillis() - playerLongEntry.getValue() > plugin.getConfig().getInt("AutoAFK") * 1000) {
+                    for(Map.Entry<Player, Long> playerLongEntry : new HashMap<Player, Long>(lastPlayerAction).entrySet()) {
+                        if(afkStatus.get(playerLongEntry.getKey()) != null && !afkStatus.get(playerLongEntry.getKey()) && System.currentTimeMillis() - playerLongEntry.getValue() > plugin.getConfig().getInt("AutoAFK") * 1000) {
                             AFKMessage.send(playerLongEntry.getKey(), true);
                             afkStatus.put(playerLongEntry.getKey(), true);
                         }
