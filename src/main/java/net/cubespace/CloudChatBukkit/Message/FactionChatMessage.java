@@ -6,28 +6,29 @@ import com.iKeirNez.PluginMessageApiPlus.StandardPacket;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-public class AFKMessage extends StandardPacket {
-    private boolean afk;
 
-    public AFKMessage() {}
+public class FactionChatMessage extends StandardPacket {
+    private String message;
 
-    public AFKMessage(boolean afk) {
-        this.afk = afk;
+    public FactionChatMessage() {}
+
+    public FactionChatMessage(String message) {
+        this.message = message;
     }
 
-    public boolean isAfk() {
-        return afk;
+    public String getMessage() {
+        return message;
     }
 
     @Override
     protected void handle(DataInputStream dataInputStream) throws IOException {
-        this.afk = dataInputStream.readBoolean();
+        this.message = dataInputStream.readUTF();
     }
 
     @Override
     protected PacketWriter write() throws IOException {
         PacketWriter packetWriter = new PacketWriter(this);
-        packetWriter.writeBoolean(afk);
+        packetWriter.writeUTF(message);
         return packetWriter;
     }
 }

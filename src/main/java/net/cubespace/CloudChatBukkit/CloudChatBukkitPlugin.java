@@ -5,12 +5,14 @@ import net.cubespace.CloudChatBukkit.Listener.EntityDamage;
 import net.cubespace.CloudChatBukkit.Listener.PlayerJoin;
 import net.cubespace.CloudChatBukkit.Listener.PlayerMove;
 import net.cubespace.CloudChatBukkit.Listener.PlayerQuit;
-import net.cubespace.CloudChatBukkit.Listener.PluginMessageListener;
 import net.cubespace.CloudChatBukkit.Listener.WorldChange;
 import net.cubespace.CloudChatBukkit.Manager.Managers;
 import net.cubespace.CloudChatBukkit.Message.AFKMessage;
 import net.cubespace.CloudChatBukkit.Message.AffixMessage;
-import net.cubespace.CloudChatBukkit.Message.FactionsChatMessage;
+import net.cubespace.CloudChatBukkit.Message.DispatchCmdMessage;
+import net.cubespace.CloudChatBukkit.Message.FactionChatMessage;
+import net.cubespace.CloudChatBukkit.Message.PluginMessageListener;
+import net.cubespace.CloudChatBukkit.Message.PluginMessageManager;
 import net.cubespace.CloudChatBukkit.Message.WorldMessage;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CloudChatBukkitPlugin extends JavaPlugin {
     private Managers managers = null;
     private boolean factions;
+    private PluginMessageManager pluginMessageManager;
 
     @Override
     public void onEnable() {
@@ -31,15 +34,14 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         //Startup the Managers
         managers = new Managers(this);
 
-        //Register all Output of this Plugin into the CloudChat Plugin Message Channel
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "CloudChat");
-        getServer().getMessenger().registerIncomingPluginChannel(this, "CloudChat", new PluginMessageListener(this));
-
-        //Start up the Messages
-        AffixMessage.init(this);
-        WorldMessage.init(this);
-        AFKMessage.init(this);
-        FactionsChatMessage.init(this);
+        //Startup the PluginMessage Framework
+        pluginMessageManager = new PluginMessageManager(this, "CloudChat");
+        pluginMessageManager.getPacketManager().registerPacket(AffixMessage.class);
+        pluginMessageManager.getPacketManager().registerPacket(AFKMessage.class);
+        pluginMessageManager.getPacketManager().registerPacket(DispatchCmdMessage.class);
+        pluginMessageManager.getPacketManager().registerPacket(FactionChatMessage.class);
+        pluginMessageManager.getPacketManager().registerPacket(WorldMessage.class);
+        pluginMessageManager.getPacketManager().registerListener(new PluginMessageListener(this));
 
         //Register the Listener
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
@@ -64,7 +66,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         return factions;
     }
 
-    public void onDisable() {
-        saveConfig();
+    public PluginMessageManager getPluginMessageManager() {
+        return pluginMessageManager;
     }
 }

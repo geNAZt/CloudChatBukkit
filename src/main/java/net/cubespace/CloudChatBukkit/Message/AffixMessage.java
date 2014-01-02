@@ -1,42 +1,41 @@
 package net.cubespace.CloudChatBukkit.Message;
 
-import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
-import net.cubespace.CloudChatBukkit.Tasks.PluginMessageTask;
-import org.bukkit.entity.Player;
+import com.iKeirNez.PluginMessageApiPlus.PacketWriter;
+import com.iKeirNez.PluginMessageApiPlus.StandardPacket;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 
-/**
- * @author geNAZt (fabian.fassbender42@googlemail.com)
- * @date Last changed: 29.11.13 13:06
- */
-public class AffixMessage {
-    private static CloudChatBukkitPlugin plugin;
+public class AffixMessage extends StandardPacket {
+    private String prefix;
+    private String suffix;
 
-    public static void init(CloudChatBukkitPlugin plugin) {
-        AffixMessage.plugin = plugin;
+    public AffixMessage() {}
+
+    public AffixMessage(String prefix, String suffix) {
+        this.prefix = prefix;
+        this.suffix = suffix;
     }
 
-    public static void send(Player player) {
-        //Check if a Affix manager is loaded
-        if(plugin.getManagers().getAffixManager() == null) {
-            return;
-        }
+    public String getSuffix() {
+        return suffix;
+    }
 
-        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-        DataOutputStream output = new DataOutputStream(bStream);
+    public String getPrefix() {
+        return prefix;
+    }
 
-        try {
-            output.writeUTF("Affix");
-            output.writeUTF(player.getName());
-            output.writeUTF(plugin.getManagers().getAffixManager().getPrefix(player));
-            output.writeUTF(plugin.getManagers().getAffixManager().getSuffix(player));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    protected void handle(DataInputStream dataInputStream) throws IOException {
+        this.prefix = dataInputStream.readUTF();
+        this.suffix = dataInputStream.readUTF();
+    }
 
-        new PluginMessageTask(plugin, player, bStream).runTaskLater(plugin, 1);
+    @Override
+    protected PacketWriter write() throws IOException {
+        PacketWriter packetWriter = new PacketWriter(this);
+        packetWriter.writeUTF(prefix);
+        packetWriter.writeUTF(suffix);
+        return packetWriter;
     }
 }

@@ -1,7 +1,7 @@
 package net.cubespace.CloudChatBukkit.Listener;
 
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
-import net.cubespace.CloudChatBukkit.Message.FactionsChatMessage;
+import net.cubespace.CloudChatBukkit.Message.FactionChatMessage;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,7 +26,7 @@ public class ChatListener implements Listener {
 
             //Check if this Server is Factions enabled
             if(plugin.isFactions()) {
-                FactionsChatMessage.send(event.getPlayer(), event.getMessage());
+                plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new FactionChatMessage(event.getMessage()));
             }
         }
 

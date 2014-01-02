@@ -1,40 +1,41 @@
 package net.cubespace.CloudChatBukkit.Message;
 
-import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
-import net.cubespace.CloudChatBukkit.Tasks.PluginMessageTask;
-import org.bukkit.entity.Player;
+import com.iKeirNez.PluginMessageApiPlus.PacketWriter;
+import com.iKeirNez.PluginMessageApiPlus.StandardPacket;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 
-/**
- * @author geNAZt (fabian.fassbender42@googlemail.com)
- * @date Last changed: 29.11.13 13:06
- */
-public class WorldMessage {
-    private static CloudChatBukkitPlugin plugin;
+public class WorldMessage extends StandardPacket {
+    private String name;
+    private String alias;
 
-    public static void init(CloudChatBukkitPlugin plugin) {
-        WorldMessage.plugin = plugin;
+    public WorldMessage() {}
+
+    public WorldMessage(String name, String alias) {
+        this.name = name;
+        this.alias = alias;
     }
 
-    public static void send(Player player) {
-        String worldName = plugin.getManagers().getWorldManager().getWorldName(player.getWorld());
-        String worldAlias = plugin.getManagers().getWorldManager().getWorldAlias(player.getWorld());
+    public String getName() {
+        return name;
+    }
 
-        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-        DataOutputStream output = new DataOutputStream(bStream);
+    public String getAlias() {
+        return alias;
+    }
 
-        try {
-            output.writeUTF("World");
-            output.writeUTF(player.getName());
-            output.writeUTF(worldName);
-            output.writeUTF(worldAlias);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    protected void handle(DataInputStream dataInputStream) throws IOException {
+        this.name = dataInputStream.readUTF();
+        this.alias = dataInputStream.readUTF();
+    }
 
-        new PluginMessageTask(plugin, player, bStream).runTaskLater(plugin, 1);
+    @Override
+    protected PacketWriter write() throws IOException {
+        PacketWriter packetWriter = new PacketWriter(this);
+        packetWriter.writeUTF(name);
+        packetWriter.writeUTF(alias);
+        return packetWriter;
     }
 }

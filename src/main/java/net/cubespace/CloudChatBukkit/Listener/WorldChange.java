@@ -21,8 +21,15 @@ public class WorldChange implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onWorldChange(PlayerChangedWorldEvent event) {
-        AffixMessage.send(event.getPlayer());
-        WorldMessage.send(event.getPlayer());
+        plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new AffixMessage(
+                plugin.getManagers().getAffixManager().getPrefix(event.getPlayer()),
+                plugin.getManagers().getAffixManager().getSuffix(event.getPlayer())
+        ));
+
+        plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new WorldMessage(
+                plugin.getManagers().getWorldManager().getWorldName(event.getPlayer().getWorld()),
+                plugin.getManagers().getWorldManager().getWorldAlias(event.getPlayer().getWorld())
+        ));
 
         plugin.getManagers().getAfkManager().reset(event.getPlayer());
     }
