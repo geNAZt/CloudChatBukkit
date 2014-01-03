@@ -55,7 +55,31 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         }
 
         //Check if server has Factions
-        factions = getServer().getPluginManager().isPluginEnabled("Factions");
+        factions = hasFactions();
+    }
+
+    private boolean hasFactions() {
+        //Does the Server have Factions installed ?
+        if(getServer().getPluginManager().isPluginEnabled("Factions")) {
+            //Get the Factions Version number
+            String version = getServer().getPluginManager().getPlugin("Factions").getDescription().getVersion();
+
+            //Parse Version
+            String[] split = version.split("\\.");
+            int[] versionNumber = new int[split.length];
+
+            for(int i = 0; i < split.length; i++) {
+                try {
+                    versionNumber[i] = Integer.parseInt(split[i]);
+                } catch(NumberFormatException e) {
+                    versionNumber[i] = 99;
+                }
+            }
+
+            return versionNumber[0] < 1 && versionNumber[1] < 8;
+        }
+
+        return false;
     }
 
     public Managers getManagers() {
