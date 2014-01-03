@@ -2,26 +2,23 @@ package net.cubespace.CloudChatBukkit.Command;
 
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.List;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
  * @date Last changed: 03.01.14 14:12
  */
-public class FactionChat extends Command {
+public class FactionChat implements CommandExecutor {
     private CloudChatBukkitPlugin plugin;
 
-    public FactionChat(CloudChatBukkitPlugin plugin, String name, List<String> aliases) {
-        super(name, "", "", aliases);
-
+    public FactionChat(CloudChatBukkitPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean execute(CommandSender commandSender, String alias, String[] args) {
+    public boolean onCommand(CommandSender commandSender, Command command, String alias, String[] args) {
         //Check the commandSender
         if(!(commandSender instanceof Player)) {
             commandSender.sendMessage("You only can chat as Player");

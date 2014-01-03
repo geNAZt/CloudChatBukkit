@@ -3,3 +3,13 @@ author: geNAZt
 main: net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin
 version: 0.9.0
 softdepend: [Multiverse-Core, Vault, BungeePermsBukkit, Factions]
+commands:
+    fchat:
+        description: Toggle Factionchat mode
+        aliases: [fc]
+        permission: cloudchat.factions.command.fchat
+        permission-message: You do not have permission to this Command
+        usage: /<command> *([a|at|e|f|g|t])
+permissions:
+    cloudchat.factions.command.fchat:
+        description: Gives access to the Chat mode switcher

@@ -1,5 +1,6 @@
 package net.cubespace.CloudChatBukkit;
 
+import net.cubespace.CloudChatBukkit.Command.FactionChat;
 import net.cubespace.CloudChatBukkit.Listener.ChatListener;
 import net.cubespace.CloudChatBukkit.Listener.EntityDamage;
 import net.cubespace.CloudChatBukkit.Listener.PlayerJoin;
@@ -15,6 +16,8 @@ import net.cubespace.CloudChatBukkit.Message.PluginMessageListener;
 import net.cubespace.CloudChatBukkit.Message.PluginMessageManager;
 import net.cubespace.CloudChatBukkit.Message.WorldMessage;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
@@ -56,6 +59,11 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new PlayerMove(this), this);
             getServer().getPluginManager().registerEvents(new EntityDamage(this), this);
         }
+
+        ArrayList<String> aliases = new ArrayList<String>();
+        aliases.add("fc");
+        getCommand("fchat").setAliases(aliases);
+        getCommand("fchat").setExecutor(new FactionChat(this));
     }
 
     public Managers getManagers() {
