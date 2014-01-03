@@ -1,8 +1,8 @@
 package net.cubespace.CloudChatBukkit.Listener;
 
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
-import net.cubespace.CloudChatBukkit.Message.AffixMessage;
-import net.cubespace.CloudChatBukkit.Message.WorldMessage;
+import net.cubespace.PluginMessages.AffixMessage;
+import net.cubespace.PluginMessages.WorldMessage;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

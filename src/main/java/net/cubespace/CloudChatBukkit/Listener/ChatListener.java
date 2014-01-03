@@ -1,7 +1,7 @@
 package net.cubespace.CloudChatBukkit.Listener;
 
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
-import net.cubespace.CloudChatBukkit.Message.FactionChatMessage;
+import net.cubespace.PluginMessages.FactionChatMessage;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

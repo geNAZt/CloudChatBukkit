@@ -1,4 +1,4 @@
-package net.cubespace.CloudChatBukkit.Message;
+package net.cubespace.PluginMessages;
 
 import com.iKeirNez.PluginMessageApiPlus.PacketWriter;
 import com.iKeirNez.PluginMessageApiPlus.StandardPacket;
@@ -35,6 +35,10 @@ public class FactionChatMessage extends StandardPacket {
 
     public String getFactionName() {
         return factionName;
+    }
+
+    public List<String> getPlayers() {
+        return players;
     }
 
     @Override

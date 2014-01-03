@@ -1,7 +1,7 @@
 package net.cubespace.CloudChatBukkit.Manager;
 
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
-import net.cubespace.CloudChatBukkit.Message.AFKMessage;
+import net.cubespace.PluginMessages.AFKMessage;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

@@ -3,6 +3,7 @@ package net.cubespace.CloudChatBukkit.Message;
 import com.iKeirNez.PluginMessageApiPlus.PacketHandler;
 import com.iKeirNez.PluginMessageApiPlus.PacketListener;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
+import net.cubespace.PluginMessages.DispatchCmdMessage;
 import org.bukkit.entity.Player;
 
 /**

@@ -1,4 +1,4 @@
-package net.cubespace.CloudChatBukkit.Message;
+package net.cubespace.PluginMessages;
 
 import com.iKeirNez.PluginMessageApiPlus.PacketWriter;
 import com.iKeirNez.PluginMessageApiPlus.StandardPacket;
