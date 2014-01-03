@@ -8,14 +8,12 @@ import net.cubespace.CloudChatBukkit.Manager.WorldManagers.MultiverseWorldManage
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-/**
- * Created by Fabian on 02.12.13.
- */
 public class Managers {
     private CloudChatBukkitPlugin plugin;
     private WorldManager worldManager;
     private AffixManager affixManager;
     private AFKManager afkManager;
+    private FactionManager factionManager;
     private Chat chat = null;
 
     public Managers(CloudChatBukkitPlugin plugin) {
@@ -33,6 +31,11 @@ public class Managers {
             affixManager = new VaultManager(plugin, chat);
         } else if (plugin.getServer().getPluginManager().isPluginEnabled("BungeePermsBukkit")) {
             affixManager = new BungeePermsManager(plugin);
+        }
+
+        //FactionManager
+        if(plugin.isFactions()) {
+            factionManager = new FactionManager(plugin);
         }
 
         //AFKManager
@@ -57,5 +60,9 @@ public class Managers {
     }
     public AFKManager getAfkManager() {
         return afkManager;
+    }
+
+    public FactionManager getFactionManager() {
+        return factionManager;
     }
 }

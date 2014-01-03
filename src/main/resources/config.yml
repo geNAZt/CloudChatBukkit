@@ -4,3 +4,7 @@ HandleAFK: false
 AutoAFK: 0
 Worlds:
   testWorld: TW
+AnnounceFactionModeOnJoin: true
+DefaultFactionMode: global
+FactionModes:
+  geNAZt: faction

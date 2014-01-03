@@ -5,11 +5,6 @@ import net.cubespace.CloudChatBukkit.Manager.WorldManager;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.HashMap;
-
-/**
- * Created by Fabian on 02.12.13.
- */
 public class BukkitWorldManager implements WorldManager {
     private ConfigurationSection worldAliases;
 

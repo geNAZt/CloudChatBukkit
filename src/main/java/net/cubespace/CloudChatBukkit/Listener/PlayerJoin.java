@@ -41,5 +41,14 @@ public class PlayerJoin implements Listener {
                 ));
             }
         }, 10);
+
+        //Check if this Plugin handles Factions
+        if(plugin.isFactions()) {
+            plugin.getManagers().getFactionManager().checkFactionMode(event.getPlayer());
+
+            if(plugin.getConfig().getBoolean("AnnounceFactionModeOnJoin", true)) {
+                event.getPlayer().sendMessage("You currently Chat to: " + plugin.getManagers().getFactionManager().getFactionMode(event.getPlayer()));
+            }
+        }
     }
 }
