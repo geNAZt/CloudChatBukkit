@@ -72,7 +72,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
     public void onDisable() {
         if(factions) {
-            managers.getFactionManager().save();
+            managers.getFactionManager().save(this);
         }
     }
 }
