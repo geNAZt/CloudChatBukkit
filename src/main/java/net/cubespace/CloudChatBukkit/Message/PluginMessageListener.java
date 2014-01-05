@@ -2,8 +2,10 @@ package net.cubespace.CloudChatBukkit.Message;
 
 import com.iKeirNez.PluginMessageApiPlus.PacketHandler;
 import com.iKeirNez.PluginMessageApiPlus.PacketListener;
+import net.cubespace.CloudChatBukkit.CloudChatBukkitCommandSender;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.PluginMessages.DispatchCmdMessage;
+import net.cubespace.PluginMessages.DispatchScmdMessage;
 import org.bukkit.entity.Player;
 
 /**
@@ -22,5 +24,12 @@ public class PluginMessageListener implements PacketListener {
         Player player = dispatchCmdMessage.getSender().getBukkitPlayer();
 
         plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), dispatchCmdMessage.getCommand());
+    }
+
+    @PacketHandler
+    public void onDispatchCmdMessage(DispatchScmdMessage dispatchScmdMessage){
+        Player player = dispatchScmdMessage.getSender().getBukkitPlayer();
+
+        plugin.getServer().dispatchCommand(new CloudChatBukkitCommandSender(plugin, dispatchScmdMessage.getScmdSessionId()), dispatchScmdMessage.getCommand());
     }
 }
