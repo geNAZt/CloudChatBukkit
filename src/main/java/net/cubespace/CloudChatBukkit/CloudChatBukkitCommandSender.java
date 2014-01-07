@@ -25,7 +25,7 @@ public class CloudChatBukkitCommandSender implements CommandSender {
 
     @Override
     public void sendMessage(String message) {
-        plugin.getPluginMessageManager().sendPluginMessage(plugin.getServer().getOnlinePlayers()[0], new RespondScmdMessage(message, scmdSessionId));
+        plugin.getPluginMessageManager("CloudChat").sendPluginMessage(plugin.getServer().getOnlinePlayers()[0], new RespondScmdMessage(message, scmdSessionId));
         plugin.getLogger().info("[CommandSender] " + message);
     }
 

@@ -30,6 +30,7 @@ public class PluginMessageListener implements PacketListener {
     public void onDispatchCmdMessage(DispatchScmdMessage dispatchScmdMessage){
         Player player = dispatchScmdMessage.getSender().getBukkitPlayer();
 
+        plugin.getLogger().info("Issuing SCMD: " + dispatchScmdMessage.getCommand());
         plugin.getServer().dispatchCommand(new CloudChatBukkitCommandSender(plugin, dispatchScmdMessage.getScmdSessionId()), dispatchScmdMessage.getCommand());
     }
 }

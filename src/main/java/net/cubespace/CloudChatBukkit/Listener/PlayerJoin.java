@@ -31,13 +31,13 @@ public class PlayerJoin implements Listener {
             @Override
             public void run() {
                 if(plugin.getManagers().getAffixManager() != null) {
-                    plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new AffixMessage(
+                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new AffixMessage(
                             plugin.getManagers().getAffixManager().getPrefix(event.getPlayer()),
                             plugin.getManagers().getAffixManager().getSuffix(event.getPlayer())
                     ));
                 }
 
-                plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new WorldMessage(
+                plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new WorldMessage(
                         plugin.getManagers().getWorldManager().getWorldName(event.getPlayer().getWorld()),
                         plugin.getManagers().getWorldManager().getWorldAlias(event.getPlayer().getWorld())
                 ));

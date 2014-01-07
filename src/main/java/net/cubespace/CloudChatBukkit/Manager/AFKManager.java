@@ -25,7 +25,7 @@ public class AFKManager {
                 public void run() {
                     for(Map.Entry<Player, Long> playerLongEntry : new HashMap<Player, Long>(lastPlayerAction).entrySet()) {
                         if(afkStatus.get(playerLongEntry.getKey()) != null && !afkStatus.get(playerLongEntry.getKey()) && System.currentTimeMillis() - playerLongEntry.getValue() > plugin.getConfig().getInt("AutoAFK") * 1000) {
-                            plugin.getPluginMessageManager().sendPluginMessage(playerLongEntry.getKey(), new AFKMessage(true));
+                            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(playerLongEntry.getKey(), new AFKMessage(true));
                             afkStatus.put(playerLongEntry.getKey(), true);
                         }
                     }
@@ -38,7 +38,7 @@ public class AFKManager {
         if(plugin.getConfig().getBoolean("HandleAFK", false)) {
             afkStatus.put(player, false);
 
-            plugin.getPluginMessageManager().sendPluginMessage(player, new AFKMessage(false));
+            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AFKMessage(false));
 
             if(plugin.getConfig().getInt("AutoAFK", 0) > 0) {
                 lastPlayerAction.put(player, System.currentTimeMillis());
@@ -55,7 +55,7 @@ public class AFKManager {
             if(!afkStatus.get(player)) return;
 
             afkStatus.put(player, false);
-            plugin.getPluginMessageManager().sendPluginMessage(player, new AFKMessage(false));
+            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AFKMessage(false));
         }
     }
 
@@ -71,6 +71,6 @@ public class AFKManager {
         lastPlayerAction.remove(player);
         afkStatus.remove(player);
 
-        plugin.getPluginMessageManager().sendPluginMessage(player, new AFKMessage(false));
+        plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AFKMessage(false));
     }
 }

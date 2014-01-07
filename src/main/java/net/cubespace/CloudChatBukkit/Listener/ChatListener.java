@@ -32,32 +32,32 @@ public class ChatListener implements Listener {
                 String mode = plugin.getManagers().getFactionManager().getFactionMode(event.getPlayer());
 
                 if(mode.equals("global")) {
-                    plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new FactionChatMessage("global", event.getMessage(), null, ""));
+                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("global", event.getMessage(), null, ""));
                 }
 
                 if(mode.equals("faction")) {
                     List<String> players = plugin.getManagers().getFactionManager().getFactionPlayers(event.getPlayer());
-                    plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new FactionChatMessage("faction", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
+                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("faction", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
                 }
 
                 if(mode.equals("ally")) {
                     List<String> players = plugin.getManagers().getFactionManager().getFactionAllyPlayers(event.getPlayer());
-                    plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new FactionChatMessage("ally", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
+                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("ally", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
                 }
 
                 if(mode.equals("allyandtruce")) {
                     List<String> players = plugin.getManagers().getFactionManager().getFactionAllyAndTrucePlayers(event.getPlayer());
-                    plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new FactionChatMessage("allyandtruce", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
+                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("allyandtruce", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
                 }
 
                 if(mode.equals("truce")) {
                     List<String> players = plugin.getManagers().getFactionManager().getFactionTrucePlayers(event.getPlayer());
-                    plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new FactionChatMessage("truce", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
+                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("truce", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
                 }
 
                 if(mode.equals("enemy")) {
                     List<String> players = plugin.getManagers().getFactionManager().getFactionEnemyPlayers(event.getPlayer());
-                    plugin.getPluginMessageManager().sendPluginMessage(event.getPlayer(), new FactionChatMessage("enemy", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
+                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("enemy", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
                 }
             }
         }
