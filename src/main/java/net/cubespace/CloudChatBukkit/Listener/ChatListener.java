@@ -36,7 +36,9 @@ public class ChatListener implements Listener {
                 String mode = plugin.getManagers().getFactionManager().getFactionMode(event.getPlayer());
 
                 if(mode.equals("global")) {
-                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("global", event.getMessage(), null, ""));
+                    if(!checkLocalChat(event)) {
+                        plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("global", event.getMessage(), null, ""));
+                    }
                 }
 
                 if(mode.equals("faction")) {
@@ -63,34 +65,43 @@ public class ChatListener implements Listener {
                     List<String> players = plugin.getManagers().getFactionManager().getFactionEnemyPlayers(event.getPlayer());
                     plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("enemy", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
                 }
-            }
 
-            //Check if Server has Local Chat
-            if(plugin.getConfig().getBoolean("LocalChat", false)) {
-                //Check which range to use (WorldRange > GlobalRange)
-                int range = plugin.getConfig().getInt("GlobalRange");
-
-                if(plugin.getConfig().getInt("WorldRanges." + event.getPlayer().getWorld().getName(), 0) > 0) {
-                    range = plugin.getConfig().getInt("WorldRanges." + event.getPlayer().getWorld().getName(), 0);
-                }
-
-                if(range > 0) {
-                    //Get all Entities nearby
-                    List<Entity> entities = event.getPlayer().getNearbyEntities(range, range, range);
-                    ArrayList<String> sendTo = new ArrayList<String>();
-
-                    sendTo.add(event.getPlayer().getName());
-                    for(Entity entity : entities) {
-                        if(entity instanceof Player) {
-                            sendTo.add(((Player) entity).getName());
-                        }
-                    }
-
-                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new SendChatMessage(event.getMessage(), sendTo));
-                }
+                return;
+            } else {
+                checkLocalChat(event);
             }
         }
 
         plugin.getManagers().getAfkManager().reset(event.getPlayer());
+    }
+
+    private boolean checkLocalChat(AsyncPlayerChatEvent event) {
+        //Check if Server has Local Chat
+        if(plugin.getConfig().getBoolean("LocalChat", false)) {
+            //Check which range to use (WorldRange > GlobalRange)
+            int range = plugin.getConfig().getInt("GlobalRange");
+
+            if(plugin.getConfig().getInt("WorldRanges." + event.getPlayer().getWorld().getName(), 0) > 0) {
+                range = plugin.getConfig().getInt("WorldRanges." + event.getPlayer().getWorld().getName(), 0);
+            }
+
+            if(range > 0) {
+                //Get all Entities nearby
+                List<Entity> entities = event.getPlayer().getNearbyEntities(range, range, range);
+                ArrayList<String> sendTo = new ArrayList<String>();
+
+                sendTo.add(event.getPlayer().getName());
+                for(Entity entity : entities) {
+                    if(entity instanceof Player) {
+                        sendTo.add(((Player) entity).getName());
+                    }
+                }
+
+                plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new SendChatMessage(event.getMessage(), sendTo));
+                return true;
+            }
+        }
+
+        return false;
     }
 }
