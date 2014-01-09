@@ -52,7 +52,8 @@ public class AFKManager {
                 lastPlayerAction.put(player, System.currentTimeMillis());
             }
 
-            if(!afkStatus.get(player)) return;
+
+            if(afkStatus.containsKey(player) && !afkStatus.get(player)) return;
 
             afkStatus.put(player, false);
             plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AFKMessage(false));
@@ -68,9 +69,14 @@ public class AFKManager {
     }
 
     public void remove(Player player) {
-        lastPlayerAction.remove(player);
-        afkStatus.remove(player);
+        if(plugin.getConfig().getBoolean("HandleAFK", false)) {
+            if(plugin.getConfig().getInt("AutoAFK", 0) > 0) {
+                lastPlayerAction.remove(player);
+            }
 
-        plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AFKMessage(false));
+            afkStatus.remove(player);
+
+            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AFKMessage(false));
+        }
     }
 }
