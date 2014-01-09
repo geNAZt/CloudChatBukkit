@@ -2,11 +2,15 @@ package net.cubespace.CloudChatBukkit.Listener;
 
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.PluginMessages.FactionChatMessage;
+import net.cubespace.PluginMessages.SendChatMessage;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,6 +62,31 @@ public class ChatListener implements Listener {
                 if(mode.equals("enemy")) {
                     List<String> players = plugin.getManagers().getFactionManager().getFactionEnemyPlayers(event.getPlayer());
                     plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("enemy", event.getMessage(), players, plugin.getManagers().getFactionManager().getFaction(event.getPlayer())));
+                }
+            }
+
+            //Check if Server has Local Chat
+            if(plugin.getConfig().getBoolean("LocalChat", false)) {
+                //Check which range to use (WorldRange > GlobalRange)
+                int range = plugin.getConfig().getInt("GlobalRange");
+
+                if(plugin.getConfig().getInt("WorldRanges." + event.getPlayer().getWorld().getName(), 0) > 0) {
+                    range = plugin.getConfig().getInt("WorldRanges." + event.getPlayer().getWorld().getName(), 0);
+                }
+
+                if(range > 0) {
+                    //Get all Entities nearby
+                    List<Entity> entities = event.getPlayer().getNearbyEntities(range, range, range);
+                    ArrayList<String> sendTo = new ArrayList<String>();
+
+                    sendTo.add(event.getPlayer().getName());
+                    for(Entity entity : entities) {
+                        if(entity instanceof Player) {
+                            sendTo.add(((Player) entity).getName());
+                        }
+                    }
+
+                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new SendChatMessage(event.getMessage(), sendTo));
                 }
             }
         }

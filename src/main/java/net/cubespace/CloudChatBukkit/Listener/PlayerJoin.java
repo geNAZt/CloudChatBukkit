@@ -2,6 +2,7 @@ package net.cubespace.CloudChatBukkit.Listener;
 
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.PluginMessages.AffixMessage;
+import net.cubespace.PluginMessages.IgnoreMessage;
 import net.cubespace.PluginMessages.WorldMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -41,6 +42,18 @@ public class PlayerJoin implements Listener {
                         plugin.getManagers().getWorldManager().getWorldName(event.getPlayer().getWorld()),
                         plugin.getManagers().getWorldManager().getWorldAlias(event.getPlayer().getWorld())
                 ));
+
+                if(plugin.getConfig().getBoolean("LocalChat", false)) {
+                    //Check if global Range
+                    if(plugin.getConfig().getInt("GlobalRange", 0) > 0) {
+                        plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new IgnoreMessage(true));
+                    } else {
+                        //Check if world range is set
+                        if(plugin.getConfig().getInt("WorldRanges." + event.getPlayer().getWorld().getName(), 0) > 0) {
+                            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new IgnoreMessage(true));
+                        }
+                    }
+                }
             }
         }, 10);
 
