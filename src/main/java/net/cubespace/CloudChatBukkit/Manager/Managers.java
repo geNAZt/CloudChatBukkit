@@ -47,7 +47,7 @@ public class Managers {
         afkManager = new AFKManager(plugin);
 
         //Shedule the reset of Affixes
-        if(plugin.getManagers().getAffixManager() != null) {
+        if(affixManager != null) {
             plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
                 @Override
                 public void run() {
