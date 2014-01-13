@@ -1,6 +1,7 @@
 package net.cubespace.CloudChatBukkit.Listener;
 
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
+import net.cubespace.PluginMessages.ChatMessage;
 import net.cubespace.PluginMessages.FactionChatMessage;
 import net.cubespace.PluginMessages.SendChatMessage;
 import org.bukkit.entity.Entity;
@@ -68,7 +69,9 @@ public class ChatListener implements Listener {
 
                 return;
             } else {
-                checkLocalChat(event);
+                if(!checkLocalChat(event)) {
+                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new ChatMessage(event.getMessage()));
+                }
             }
         }
 

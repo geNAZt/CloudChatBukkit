@@ -14,6 +14,7 @@ import net.cubespace.CloudChatBukkit.Message.PluginMessageListener;
 import net.cubespace.CloudChatBukkit.Message.PluginMessageManager;
 import net.cubespace.PluginMessages.AFKMessage;
 import net.cubespace.PluginMessages.AffixMessage;
+import net.cubespace.PluginMessages.ChatMessage;
 import net.cubespace.PluginMessages.DispatchCmdMessage;
 import net.cubespace.PluginMessages.DispatchScmdMessage;
 import net.cubespace.PluginMessages.FactionChatMessage;
@@ -66,6 +67,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         pluginMessageManagers.get("CloudChat").addPacketToRegister(RespondScmdMessage.class);
         pluginMessageManagers.get("CloudChat").addPacketToRegister(IgnoreMessage.class);
         pluginMessageManagers.get("CloudChat").addPacketToRegister(SendChatMessage.class);
+        pluginMessageManagers.get("CloudChat").addPacketToRegister(ChatMessage.class);
         pluginMessageManagers.get("CloudChat").addListenerToRegister(new PluginMessageListener(this));
 
         //Register the Listener
