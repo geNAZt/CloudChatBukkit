@@ -18,9 +18,8 @@ public class CloudChatBukkitCommandSender implements CommandSender {
     private Integer scmdSessionId;
     private CloudChatBukkitPlugin plugin;
 
-    public CloudChatBukkitCommandSender(CloudChatBukkitPlugin plugin, Integer scmdSessionId) {
+    public CloudChatBukkitCommandSender(CloudChatBukkitPlugin plugin) {
         this.plugin = plugin;
-        this.scmdSessionId = scmdSessionId;
     }
 
     @Override
@@ -114,5 +113,9 @@ public class CloudChatBukkitCommandSender implements CommandSender {
     @Override
     public void setOp(boolean b) {
 
+    }
+
+    public void setScmdId(Integer scmdId) {
+        this.scmdSessionId = scmdId;
     }
 }

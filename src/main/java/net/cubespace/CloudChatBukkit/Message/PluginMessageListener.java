@@ -6,7 +6,8 @@ import net.cubespace.CloudChatBukkit.CloudChatBukkitCommandSender;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.PluginMessages.DispatchCmdMessage;
 import net.cubespace.PluginMessages.DispatchScmdMessage;
-import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
  */
 public class PluginMessageListener implements PacketListener {
     private CloudChatBukkitPlugin plugin;
+    private HashMap<String, CloudChatBukkitCommandSender> cloudChatBukkitCommandSender = new HashMap<String, CloudChatBukkitCommandSender>();
 
     public PluginMessageListener(CloudChatBukkitPlugin plugin) {
         this.plugin = plugin;
@@ -21,16 +23,20 @@ public class PluginMessageListener implements PacketListener {
 
     @PacketHandler
     public void onDispatchCmdMessage(DispatchCmdMessage dispatchCmdMessage){
-        Player player = dispatchCmdMessage.getSender().getBukkitPlayer();
-
         plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), dispatchCmdMessage.getCommand());
     }
 
     @PacketHandler
     public void onDispatchCmdMessage(DispatchScmdMessage dispatchScmdMessage){
-        Player player = dispatchScmdMessage.getSender().getBukkitPlayer();
+        String cmd = dispatchScmdMessage.getCommand().split(" ")[0];
+
+        if(!cloudChatBukkitCommandSender.containsKey(cmd)) {
+            cloudChatBukkitCommandSender.put(cmd, new CloudChatBukkitCommandSender(plugin));
+        }
+
+        cloudChatBukkitCommandSender.get(cmd).setScmdId(dispatchScmdMessage.getScmdSessionId());
 
         plugin.getLogger().info("Issuing SCMD: " + dispatchScmdMessage.getCommand());
-        plugin.getServer().dispatchCommand(new CloudChatBukkitCommandSender(plugin, dispatchScmdMessage.getScmdSessionId()), dispatchScmdMessage.getCommand());
+        plugin.getServer().dispatchCommand(cloudChatBukkitCommandSender.get(cmd), dispatchScmdMessage.getCommand());
     }
 }
