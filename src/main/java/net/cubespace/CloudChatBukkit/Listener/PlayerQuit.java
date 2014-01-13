@@ -2,6 +2,7 @@ package net.cubespace.CloudChatBukkit.Listener;
 
 
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
+import net.cubespace.CloudChatBukkit.Command.Log;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -23,5 +24,6 @@ public class PlayerQuit implements Listener {
             event.setQuitMessage("");
 
         plugin.getManagers().getAfkManager().remove(event.getPlayer());
+        Log.remove(event.getPlayer());
     }
 }

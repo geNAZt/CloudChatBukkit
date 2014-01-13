@@ -1,6 +1,7 @@
 package net.cubespace.CloudChatBukkit;
 
 import net.cubespace.CloudChatBukkit.Command.FactionChat;
+import net.cubespace.CloudChatBukkit.Command.Log;
 import net.cubespace.CloudChatBukkit.Listener.ChatListener;
 import net.cubespace.CloudChatBukkit.Listener.EntityDamage;
 import net.cubespace.CloudChatBukkit.Listener.PlayerJoin;
@@ -82,6 +83,12 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         aliases.add("fc");
         getCommand("fchat").setAliases(aliases);
         getCommand("fchat").setExecutor(new FactionChat(this));
+
+        try {
+            Class.forName("org.apache.logging.log4j.core.Logger");
+
+            getCommand("log").setExecutor(new Log(this));
+        } catch (ClassNotFoundException e) {}
 
         pluginMessageManagers.get("CloudChat").finish();
         pluginMessageManagers.get("CubespaceLibrary").finish();

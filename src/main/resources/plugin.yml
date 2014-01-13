@@ -1,7 +1,7 @@
 name: CloudChatBukkit
 author: geNAZt
 main: net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin
-version: 0.13.2
+version: 0.14.0
 softdepend: [Multiverse-Core, Vault, BungeePermsBukkit, Factions]
 commands:
     fchat:
@@ -10,6 +10,13 @@ commands:
         permission: cloudchat.factions.command.fchat
         permission-message: You do not have permission to this Command
         usage: /<command> *([a|at|e|f|g|t])
+    log:
+        description: Toggle Log mode
+        permission: cloudchat.command.log
+        permission-message: You do not have permission to this Command
+        usage: /<command>
 permissions:
     cloudchat.factions.command.fchat:
         description: Gives access to the Chat mode switcher
+    cloudchat.command.log:
+        description: Gives access to /log which relays the Log into the Chat (from the current server)
