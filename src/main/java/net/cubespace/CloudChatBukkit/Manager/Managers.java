@@ -8,7 +8,6 @@ import net.cubespace.CloudChatBukkit.Manager.AffixManagers.VaultManager;
 import net.cubespace.CloudChatBukkit.Manager.WorldManagers.BukkitWorldManager;
 import net.cubespace.CloudChatBukkit.Manager.WorldManagers.MultiverseWorldManager;
 import net.cubespace.PluginMessages.AffixMessage;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -18,7 +17,6 @@ public class Managers {
     private AffixManager affixManager;
     private AFKManager afkManager;
     private FactionManager factionManager;
-    private Chat chat = null;
     private Table<String, String, String> affixTable = HashBasedTable.create();
 
     public Managers(final CloudChatBukkitPlugin plugin) {
@@ -33,7 +31,7 @@ public class Managers {
 
         //AffixManagers
         if(setupChat()) {
-            affixManager = new VaultManager(plugin, chat);
+            affixManager = new VaultManager(plugin);
         } else if (plugin.getServer().getPluginManager().isPluginEnabled("BungeePermsBukkit")) {
             affixManager = new BungeePermsManager(plugin);
         }
@@ -48,6 +46,10 @@ public class Managers {
 
         //Shedule the reset of Affixes
         if(affixManager != null) {
+            plugin.getLogger().info("=== It seems that you don't have any Affix Provider installed ===");
+            plugin.getLogger().info("===  You will not see any Prefix or suffix inside CloudChat   ===");
+            plugin.getLogger().info("===              To fix this install Vault                    ===");
+
             plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -82,13 +84,13 @@ public class Managers {
     }
 
     private boolean setupChat() {
-        RegisteredServiceProvider<Chat> chatProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
+        try {
+            Class.forName("net.milkbowl.vault.chat.Chat");
+            RegisteredServiceProvider<net.milkbowl.vault.chat.Chat> chatProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
+            return chatProvider != null && chatProvider.getProvider() != null;
+        } catch (ClassNotFoundException e) { }
 
-        if (chatProvider != null) {
-            chat = chatProvider.getProvider();
-        }
-
-        return (chat != null);
+        return false;
     }
 
     public WorldManager getWorldManager() {

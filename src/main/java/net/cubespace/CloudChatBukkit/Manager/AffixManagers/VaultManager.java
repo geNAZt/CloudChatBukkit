@@ -4,6 +4,7 @@ import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.CloudChatBukkit.Manager.AffixManager;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
@@ -12,8 +13,11 @@ import org.bukkit.entity.Player;
 public class VaultManager implements AffixManager {
     private Chat chat;
 
-    public VaultManager(CloudChatBukkitPlugin plugin, Chat chat) {
-        this.chat = chat;
+    public VaultManager(CloudChatBukkitPlugin plugin) {
+        RegisteredServiceProvider<Chat> chatProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
+
+        chat = chatProvider.getProvider();
+
         plugin.getLogger().info("Using Vault as Affix Manager");
     }
 
