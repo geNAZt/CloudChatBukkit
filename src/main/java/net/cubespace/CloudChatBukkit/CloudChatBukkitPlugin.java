@@ -103,7 +103,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
             ArrayList<String> aliasesNation = new ArrayList<String>();
             aliasesNation.add("nc");
-            getCommand("nchat").setAliases(aliasesTowny);
+            getCommand("nchat").setAliases(aliasesNation);
             getCommand("nchat").setExecutor(new NationChat(this));
         }
 
