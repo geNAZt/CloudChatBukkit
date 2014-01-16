@@ -37,7 +37,8 @@ public class TownyChat implements CommandExecutor {
 
         Player player = (Player) commandSender;
         try {
-            Town town = towny.getTownyUniverse().getResident(player.getName()).getTown();
+
+            Town town = towny.getTownyUniverse().getResident(player.getName().toLowerCase()).getTown();
 
             ArrayList<String> to = new ArrayList<String>();
             for(Resident resident : town.getResidents()) {
@@ -49,7 +50,7 @@ public class TownyChat implements CommandExecutor {
                 }
             }
 
-            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new TownyChatMessage("town", StringUtils.join(args, " "), to, town.getName(), (town.getNation() != null) ? town.getNation().getName() : ""));
+            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new TownyChatMessage("town", StringUtils.join(args, " "), to, town.getName(), (town.hasNation()) ? town.getNation().getName() : ""));
         } catch (NotRegisteredException e) {
             commandSender.sendMessage("You are not in a Town");
         }

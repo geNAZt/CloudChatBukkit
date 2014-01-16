@@ -43,7 +43,7 @@ public class NationChat implements CommandExecutor {
                 return true;
             }
 
-            if(town.getNation() == null) {
+            if(!town.hasNation()) {
                 player.sendMessage("This town is not in a Nation");
                 return true;
             }
@@ -61,7 +61,7 @@ public class NationChat implements CommandExecutor {
                 }
             }
 
-            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new TownyChatMessage("nation", StringUtils.join(args, " "), to, town.getName(), (town.getNation() != null) ? town.getNation().getName() : ""));
+            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new TownyChatMessage("nation", StringUtils.join(args, " "), to, town.getName(), (town.hasNation()) ? town.getNation().getName() : ""));
         } catch (NotRegisteredException e) {
             commandSender.sendMessage("Could not get Town");
             e.printStackTrace();
