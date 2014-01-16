@@ -46,10 +46,6 @@ public class Managers {
 
         //Shedule the reset of Affixes
         if(affixManager != null) {
-            plugin.getLogger().info("=== It seems that you don't have any Affix Provider installed ===");
-            plugin.getLogger().info("===  You will not see any Prefix or suffix inside CloudChat   ===");
-            plugin.getLogger().info("===              To fix this install Vault                    ===");
-
             plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -80,6 +76,10 @@ public class Managers {
                     }
                 }
             }, 200, 200);
+        } else {
+            plugin.getLogger().info("=== It seems that you don't have any Affix Provider installed ===");
+            plugin.getLogger().info("===  You will not see any Prefix or suffix inside CloudChat   ===");
+            plugin.getLogger().info("===              To fix this install Vault                    ===");
         }
     }
 

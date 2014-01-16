@@ -1,7 +1,7 @@
 name: CloudChatBukkit
 author: geNAZt
 main: net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin
-version: 1.0.1
+version: 1.1.0
 softdepend: [Multiverse-Core, Vault, BungeePermsBukkit, Factions]
 commands:
     fchat:
@@ -10,12 +10,28 @@ commands:
         permission: cloudchat.factions.command.fchat
         permission-message: You do not have permission to this Command
         usage: /<command> *([a|at|e|f|g|t])
+    tchat:
+        description: Write into your Towns Chat
+        aliases: [tc]
+        permission: cloudchat.towny.command.tchat
+        permission-message: You do not have permission to this Command
+        usage: /<command> [message]
+    nchat:
+        description: Write into your Towns Nation Chat
+        aliases: [nc]
+        permission: cloudchat.towny.command.nchat
+        permission-message: You do not have permission to this Command
+        usage: /<command> [message]
     log:
         description: Toggle Log mode
         permission: cloudchat.command.log
         permission-message: You do not have permission to this Command
         usage: /<command>
 permissions:
+    cloudchat.towny.command.nchat:
+        description: Gives access to the Towns Nation Chat
+    cloudchat.towny.command.tchat:
+        description: Gives access to the Towns Chat
     cloudchat.factions.command.fchat:
         description: Gives access to the Chat mode switcher
     cloudchat.command.log:

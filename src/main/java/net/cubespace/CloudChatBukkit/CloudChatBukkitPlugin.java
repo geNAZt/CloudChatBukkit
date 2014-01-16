@@ -2,6 +2,8 @@ package net.cubespace.CloudChatBukkit;
 
 import net.cubespace.CloudChatBukkit.Command.FactionChat;
 import net.cubespace.CloudChatBukkit.Command.Log;
+import net.cubespace.CloudChatBukkit.Command.NationChat;
+import net.cubespace.CloudChatBukkit.Command.TownyChat;
 import net.cubespace.CloudChatBukkit.Listener.ChatListener;
 import net.cubespace.CloudChatBukkit.Listener.EntityDamage;
 import net.cubespace.CloudChatBukkit.Listener.PlayerJoin;
@@ -23,6 +25,7 @@ import net.cubespace.PluginMessages.PermissionRequest;
 import net.cubespace.PluginMessages.PermissionResponse;
 import net.cubespace.PluginMessages.RespondScmdMessage;
 import net.cubespace.PluginMessages.SendChatMessage;
+import net.cubespace.PluginMessages.TownyChatMessage;
 import net.cubespace.PluginMessages.WorldMessage;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,6 +39,7 @@ import java.util.HashMap;
 public class CloudChatBukkitPlugin extends JavaPlugin {
     private Managers managers = null;
     private boolean factions;
+    private boolean towny;
     private HashMap<String, PluginMessageManager> pluginMessageManagers = new HashMap<String, PluginMessageManager>();
 
     @Override
@@ -46,6 +50,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
         //Check if server has Factions
         factions = getServer().getPluginManager().isPluginEnabled("Factions");
+        towny = getServer().getPluginManager().isPluginEnabled("Towny");
 
         //Startup the Managers
         managers = new Managers(this);
@@ -68,6 +73,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         pluginMessageManagers.get("CloudChat").addPacketToRegister(IgnoreMessage.class);
         pluginMessageManagers.get("CloudChat").addPacketToRegister(SendChatMessage.class);
         pluginMessageManagers.get("CloudChat").addPacketToRegister(ChatMessage.class);
+        pluginMessageManagers.get("CloudChat").addPacketToRegister(TownyChatMessage.class);
         pluginMessageManagers.get("CloudChat").addListenerToRegister(new PluginMessageListener(this));
 
         //Register the Listener
@@ -81,10 +87,25 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new EntityDamage(this), this);
         }
 
-        ArrayList<String> aliases = new ArrayList<String>();
-        aliases.add("fc");
-        getCommand("fchat").setAliases(aliases);
-        getCommand("fchat").setExecutor(new FactionChat(this));
+        if(isFactions()) {
+            ArrayList<String> aliasesFactions = new ArrayList<String>();
+            aliasesFactions.add("fc");
+
+            getCommand("fchat").setAliases(aliasesFactions);
+            getCommand("fchat").setExecutor(new FactionChat(this));
+        }
+
+        if(isTowny()) {
+            ArrayList<String> aliasesTowny = new ArrayList<String>();
+            aliasesTowny.add("tc");
+            getCommand("tchat").setAliases(aliasesTowny);
+            getCommand("tchat").setExecutor(new TownyChat(this));
+
+            ArrayList<String> aliasesNation = new ArrayList<String>();
+            aliasesNation.add("nc");
+            getCommand("nchat").setAliases(aliasesTowny);
+            getCommand("nchat").setExecutor(new NationChat(this));
+        }
 
         try {
             Class.forName("org.apache.logging.log4j.core.Logger");
@@ -102,6 +123,10 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
     public boolean isFactions() {
         return factions;
+    }
+
+    public boolean isTowny() {
+        return towny;
     }
 
     public PluginMessageManager getPluginMessageManager(String channel) {
