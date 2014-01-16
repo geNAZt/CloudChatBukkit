@@ -21,10 +21,19 @@ public class WorldChange implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onWorldChange(PlayerChangedWorldEvent event) {
-        plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new AffixMessage(
-                plugin.getManagers().getAffixManager().getPrefix(event.getPlayer()),
-                plugin.getManagers().getAffixManager().getSuffix(event.getPlayer())
-        ));
+        if(plugin.getManagers().getAffixManager() != null) {
+            String town = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getTown(event.getPlayer()) : "";
+            String nation = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getNation(event.getPlayer()) : "";
+            String faction = (plugin.isFactions()) ? plugin.getManagers().getFactionManager().getFaction(event.getPlayer()) : "";
+
+            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new AffixMessage(
+                    plugin.getManagers().getAffixManager().getPrefix(event.getPlayer()),
+                    plugin.getManagers().getAffixManager().getSuffix(event.getPlayer()),
+                    town,
+                    nation,
+                    faction
+            ));
+        }
 
         plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new WorldMessage(
                 plugin.getManagers().getWorldManager().getWorldName(event.getPlayer().getWorld()),

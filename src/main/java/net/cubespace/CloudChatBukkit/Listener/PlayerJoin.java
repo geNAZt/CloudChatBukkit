@@ -32,9 +32,16 @@ public class PlayerJoin implements Listener {
             @Override
             public void run() {
                 if(plugin.getManagers().getAffixManager() != null) {
+                    String town = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getTown(event.getPlayer()) : "";
+                    String nation = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getNation(event.getPlayer()) : "";
+                    String faction = (plugin.isFactions()) ? plugin.getManagers().getFactionManager().getFaction(event.getPlayer()) : "";
+
                     plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new AffixMessage(
                             plugin.getManagers().getAffixManager().getPrefix(event.getPlayer()),
-                            plugin.getManagers().getAffixManager().getSuffix(event.getPlayer())
+                            plugin.getManagers().getAffixManager().getSuffix(event.getPlayer()),
+                            town,
+                            nation,
+                            faction
                     ));
                 }
 

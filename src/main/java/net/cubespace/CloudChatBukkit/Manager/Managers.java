@@ -17,6 +17,7 @@ public class Managers {
     private AffixManager affixManager;
     private AFKManager afkManager;
     private FactionManager factionManager;
+    private TownyManager townyManager;
     private Table<String, String, String> affixTable = HashBasedTable.create();
 
     public Managers(final CloudChatBukkitPlugin plugin) {
@@ -41,6 +42,10 @@ public class Managers {
             factionManager = new FactionManager(plugin);
         }
 
+        if(plugin.isTowny()) {
+            townyManager = new TownyManager(plugin);
+        }
+
         //AFKManager
         afkManager = new AFKManager(plugin);
 
@@ -50,13 +55,13 @@ public class Managers {
                 @Override
                 public void run() {
                     //Add new Players to the Table
-                    for(Player player : plugin.getServer().getOnlinePlayers()) {
+                    for (Player player : plugin.getServer().getOnlinePlayers()) {
                         affixTable.put(player.getName(), plugin.getManagers().getAffixManager().getPrefix(player), plugin.getManagers().getAffixManager().getSuffix(player));
                     }
 
                     //Check for Changes
-                    for(Table.Cell<String, String, String> tableCell : HashBasedTable.create(affixTable).cellSet()) {
-                        if(plugin.getServer().getPlayerExact(tableCell.getRowKey()) == null) {
+                    for (Table.Cell<String, String, String> tableCell : HashBasedTable.create(affixTable).cellSet()) {
+                        if (plugin.getServer().getPlayerExact(tableCell.getRowKey()) == null) {
                             affixTable.remove(tableCell.getRowKey(), tableCell.getColumnKey());
                             continue;
                         }
@@ -64,10 +69,17 @@ public class Managers {
                         Player player = plugin.getServer().getPlayerExact(tableCell.getRowKey());
                         String prefix = plugin.getManagers().getAffixManager().getPrefix(player);
                         String suffix = plugin.getManagers().getAffixManager().getSuffix(player);
-                        if(!tableCell.getColumnKey().equals(prefix) || !tableCell.getValue().equals(suffix)) {
+                        String town = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getTown(player) : "";
+                        String nation = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getNation(player) : "";
+                        String faction = (plugin.isFactions()) ? plugin.getManagers().getFactionManager().getFaction(player) : "";
+
+                        if (!tableCell.getColumnKey().equals(prefix) || !tableCell.getValue().equals(suffix)) {
                             plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AffixMessage(
-                                prefix,
-                                suffix
+                                    prefix,
+                                    suffix,
+                                    town,
+                                    nation,
+                                    faction
                             ));
 
                             affixTable.row(tableCell.getRowKey()).remove(prefix);
@@ -105,5 +117,9 @@ public class Managers {
 
     public FactionManager getFactionManager() {
         return factionManager;
+    }
+
+    public TownyManager getTownyManager() {
+        return townyManager;
     }
 }
