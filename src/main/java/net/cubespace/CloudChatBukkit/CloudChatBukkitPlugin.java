@@ -98,11 +98,13 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         if(isTowny()) {
             ArrayList<String> aliasesTowny = new ArrayList<String>();
             aliasesTowny.add("tc");
+            aliasesTowny.add("t");
             getCommand("tchat").setAliases(aliasesTowny);
             getCommand("tchat").setExecutor(new TownyChat(this));
 
             ArrayList<String> aliasesNation = new ArrayList<String>();
             aliasesNation.add("nc");
+            aliasesNation.add("nation");
             getCommand("nchat").setAliases(aliasesNation);
             getCommand("nchat").setExecutor(new NationChat(this));
         }

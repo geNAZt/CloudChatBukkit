@@ -77,6 +77,10 @@
             <id>vault-repo</id>
             <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
         </repository>
+        <repository>
+            <id>cubespace-repo</id>
+            <url>http://nexus.cube-space.net/content/repositories/snapshots/</url>
+        </repository>
     </repositories>
 
     <dependencies>
