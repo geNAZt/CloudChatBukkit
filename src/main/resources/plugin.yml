@@ -12,13 +12,13 @@ commands:
         usage: /<command> *([a|at|e|f|g|t])
     tchat:
         description: Write into your Towns Chat
-        aliases: [tc, t]
+        aliases: [tc]
         permission: cloudchat.towny.command.tchat
         permission-message: You do not have permission to this Command
         usage: /<command> [message]
     nchat:
         description: Write into your Towns Nation Chat
-        aliases: [nc, nation]
+        aliases: [nc]
         permission: cloudchat.towny.command.nchat
         permission-message: You do not have permission to this Command
         usage: /<command> [message]
