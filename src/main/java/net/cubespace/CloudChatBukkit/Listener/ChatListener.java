@@ -96,7 +96,9 @@ public class ChatListener implements Listener {
                 sendTo.add(event.getPlayer().getName());
                 for(Entity entity : entities) {
                     if(entity instanceof Player) {
-                        sendTo.add(((Player) entity).getName());
+                        if (!sendTo.contains(((Player) entity).getName())) {
+                            sendTo.add(((Player) entity).getName());
+                        }
                     }
                 }
 
