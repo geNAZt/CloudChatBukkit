@@ -5,8 +5,8 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColls;
 import com.massivecraft.factions.entity.UPlayer;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
+import net.cubespace.Yamler.Config.InvalidConfigurationException;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -16,7 +16,6 @@ import java.util.Map;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
- * @date Last changed: 03.01.14 12:38
  */
 public class FactionManager {
     private String defaultFactionMode;
@@ -24,12 +23,8 @@ public class FactionManager {
 
     public FactionManager(CloudChatBukkitPlugin plugin) {
         //Read the config
-        defaultFactionMode = plugin.getConfig().getString("DefaultFactionMode");
-        ConfigurationSection factionModes = plugin.getConfig().getConfigurationSection("FactionModes");
-
-        for(String key : factionModes.getKeys(false)) {
-            this.factionModes.put(key, factionModes.getString(key));
-        }
+        defaultFactionMode = plugin.getMainConfig().DefaultFactionMode;
+        factionModes = plugin.getMainConfig().FactionModes;
     }
 
     public List<String> getFactionPlayers(Player player) {
@@ -137,13 +132,12 @@ public class FactionManager {
     }
 
     public void save(CloudChatBukkitPlugin plugin) {
-        ConfigurationSection factionModesCS = plugin.getConfig().getConfigurationSection("FactionModes");
-
-        for(Map.Entry<String, String> key : factionModes.entrySet()) {
-            factionModesCS.set(key.getKey(), key.getValue());
+        plugin.getMainConfig().FactionModes = factionModes;
+        try {
+            plugin.getMainConfig().save();
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
         }
-
-        plugin.saveConfig();
     }
 
     public void setFactionMode(Player player, String factionMode) {

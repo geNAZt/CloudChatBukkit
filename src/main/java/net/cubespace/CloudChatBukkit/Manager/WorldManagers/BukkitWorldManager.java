@@ -3,20 +3,21 @@ package net.cubespace.CloudChatBukkit.Manager.WorldManagers;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.CloudChatBukkit.Manager.WorldManager;
 import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
+
+import java.util.HashMap;
 
 public class BukkitWorldManager implements WorldManager {
-    private ConfigurationSection worldAliases;
+    private HashMap<String, String> worldAliases;
 
     public BukkitWorldManager(CloudChatBukkitPlugin plugin) {
-        worldAliases = plugin.getConfig().getConfigurationSection("Worlds");
+        worldAliases = plugin.getMainConfig().Worlds;
     }
 
     @Override
     public String getWorldAlias(World world) {
         if(worldAliases == null) return "";
 
-        return worldAliases.getString(world.getName(), "");
+        return worldAliases.containsKey(world.getName()) ? worldAliases.get(world.getName()) : "";
     }
 
     @Override

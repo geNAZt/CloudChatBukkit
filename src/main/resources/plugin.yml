@@ -2,6 +2,7 @@ name: CloudChatBukkit
 author: geNAZt
 main: net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin
 version: ${version}
+depend: [Yamler]
 softdepend: [Multiverse-Core, Vault, BungeePermsBukkit, Factions, Towny]
 commands:
     fchat:

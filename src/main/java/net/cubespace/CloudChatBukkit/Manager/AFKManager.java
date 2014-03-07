@@ -19,7 +19,7 @@ public class AFKManager {
     public AFKManager(final CloudChatBukkitPlugin plugin) {
         this.plugin = plugin;
 
-        if(plugin.getConfig().getInt("AutoAFK", 0) > 0) {
+        if(plugin.getMainConfig().HandleAFK && plugin.getMainConfig().AutoAFK > 0) {
             plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -35,20 +35,20 @@ public class AFKManager {
     }
 
     public void add(Player player) {
-        if(plugin.getConfig().getBoolean("HandleAFK", false)) {
+        if(plugin.getMainConfig().HandleAFK) {
             afkStatus.put(player, false);
 
             plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AFKMessage(false));
 
-            if(plugin.getConfig().getInt("AutoAFK", 0) > 0) {
+            if(plugin.getMainConfig().AutoAFK > 0) {
                 lastPlayerAction.put(player, System.currentTimeMillis());
             }
         }
     }
 
     public void reset(Player player) {
-        if(plugin.getConfig().getBoolean("HandleAFK", false)) {
-            if(plugin.getConfig().getInt("AutoAFK", 0) > 0) {
+        if(plugin.getMainConfig().HandleAFK) {
+            if(plugin.getMainConfig().AutoAFK > 0) {
                 lastPlayerAction.put(player, System.currentTimeMillis());
             }
 
@@ -61,7 +61,7 @@ public class AFKManager {
     }
 
     public boolean isAFK(Player player) {
-        if(!plugin.getConfig().getBoolean("HandleAFK", false)) {
+        if(!plugin.getMainConfig().HandleAFK) {
             return false;
         }
 
@@ -69,8 +69,8 @@ public class AFKManager {
     }
 
     public void remove(Player player) {
-        if(plugin.getConfig().getBoolean("HandleAFK", false)) {
-            if(plugin.getConfig().getInt("AutoAFK", 0) > 0) {
+        if(plugin.getMainConfig().HandleAFK) {
+            if(plugin.getMainConfig().AutoAFK > 0) {
                 lastPlayerAction.remove(player);
             }
 

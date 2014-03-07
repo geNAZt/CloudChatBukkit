@@ -4,6 +4,8 @@ import net.cubespace.CloudChatBukkit.Command.FactionChat;
 import net.cubespace.CloudChatBukkit.Command.Log;
 import net.cubespace.CloudChatBukkit.Command.NationChat;
 import net.cubespace.CloudChatBukkit.Command.TownyChat;
+import net.cubespace.CloudChatBukkit.Config.Main;
+import net.cubespace.CloudChatBukkit.Config.Messages;
 import net.cubespace.CloudChatBukkit.Listener.ChatListener;
 import net.cubespace.CloudChatBukkit.Listener.EntityDamage;
 import net.cubespace.CloudChatBukkit.Listener.PlayerJoin;
@@ -27,6 +29,7 @@ import net.cubespace.PluginMessages.RespondScmdMessage;
 import net.cubespace.PluginMessages.SendChatMessage;
 import net.cubespace.PluginMessages.TownyChatMessage;
 import net.cubespace.PluginMessages.WorldMessage;
+import net.cubespace.Yamler.Config.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -34,7 +37,6 @@ import java.util.HashMap;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
- * @date Last changed: 29.11.13 12:29
  */
 public class CloudChatBukkitPlugin extends JavaPlugin {
     private Managers managers = null;
@@ -42,11 +44,23 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
     private boolean towny;
     private HashMap<String, PluginMessageManager> pluginMessageManagers = new HashMap<String, PluginMessageManager>();
 
+    private Main config;
+    private Messages messages;
+
     @Override
     public void onEnable() {
         //Init config
-        getConfig().options().copyDefaults(true);
-        saveConfig();
+        config = new Main(this);
+        messages = new Messages(this);
+
+        try {
+            config.init();
+            messages.init();
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
+            setEnabled(false);
+            return;
+        }
 
         //Check if server has Factions
         factions = getServer().getPluginManager().isPluginEnabled("Factions");
@@ -131,6 +145,14 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
     public PluginMessageManager getPluginMessageManager(String channel) {
         return pluginMessageManagers.get(channel);
+    }
+
+    public Main getMainConfig() {
+        return config;
+    }
+
+    public Messages getMessages() {
+        return messages;
     }
 
     public void onDisable() {

@@ -80,12 +80,12 @@ public class ChatListener implements Listener {
 
     private boolean checkLocalChat(AsyncPlayerChatEvent event) {
         //Check if Server has Local Chat
-        if(plugin.getConfig().getBoolean("LocalChat", false)) {
+        if(plugin.getMainConfig().LocalChat) {
             //Check which range to use (WorldRange > GlobalRange)
-            int range = plugin.getConfig().getInt("GlobalRange");
+            int range = plugin.getMainConfig().GlobalRange;
 
-            if(plugin.getConfig().getInt("WorldRanges." + event.getPlayer().getWorld().getName(), 0) > 0) {
-                range = plugin.getConfig().getInt("WorldRanges." + event.getPlayer().getWorld().getName(), 0);
+            if(plugin.getMainConfig().WorldRanges.containsKey(event.getPlayer().getWorld().getName())) {
+                range = plugin.getMainConfig().WorldRanges.get(event.getPlayer().getWorld().getName());
             }
 
             if(range > 0) {

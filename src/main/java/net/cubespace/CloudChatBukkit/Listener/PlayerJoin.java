@@ -5,6 +5,7 @@ import net.cubespace.PluginMessages.AffixMessage;
 import net.cubespace.PluginMessages.IgnoreMessage;
 import net.cubespace.PluginMessages.WorldMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -23,7 +24,7 @@ public class PlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        if(plugin.getConfig().getBoolean("BlockPlayerJoin", false))
+        if(plugin.getMainConfig().BlockPlayerJoin)
             event.setJoinMessage("");
 
         plugin.getManagers().getAfkManager().add(event.getPlayer());
@@ -50,15 +51,16 @@ public class PlayerJoin implements Listener {
                         plugin.getManagers().getWorldManager().getWorldAlias(event.getPlayer().getWorld())
                 ));
 
-                if(plugin.getConfig().getBoolean("LocalChat", false)) {
-                    //Check if global Range
-                    if(plugin.getConfig().getInt("GlobalRange", 0) > 0) {
+                if(plugin.getMainConfig().LocalChat) {
+                    //Check which range to use (WorldRange > GlobalRange)
+                    int range = plugin.getMainConfig().GlobalRange;
+
+                    if(plugin.getMainConfig().WorldRanges.containsKey(event.getPlayer().getWorld().getName())) {
+                        range = plugin.getMainConfig().WorldRanges.get(event.getPlayer().getWorld().getName());
+                    }
+
+                    if (range > 0) {
                         plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new IgnoreMessage(true));
-                    } else {
-                        //Check if world range is set
-                        if(plugin.getConfig().getInt("WorldRanges." + event.getPlayer().getWorld().getName(), 0) > 0) {
-                            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new IgnoreMessage(true));
-                        }
                     }
                 }
             }
@@ -68,8 +70,9 @@ public class PlayerJoin implements Listener {
         if(plugin.isFactions()) {
             plugin.getManagers().getFactionManager().checkFactionMode(event.getPlayer());
 
-            if(plugin.getConfig().getBoolean("AnnounceFactionModeOnJoin", true)) {
-                event.getPlayer().sendMessage("You currently Chat to: " + plugin.getManagers().getFactionManager().getFactionMode(event.getPlayer()));
+            if(plugin.getMainConfig().AnnounceFactionModeOnJoin) {
+                event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().Announce_FactionMode.
+                        replace("%mode", plugin.getManagers().getFactionManager().getFactionMode(event.getPlayer()))));
             }
         }
     }

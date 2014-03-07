@@ -7,6 +7,7 @@ import com.palmergames.bukkit.towny.object.Town;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.PluginMessages.TownyChatMessage;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,7 +32,7 @@ public class TownyChat implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String alias, String[] args) {
         //Check the commandSender
         if(!(commandSender instanceof Player)) {
-            commandSender.sendMessage("You only can chat as Player");
+            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().Command_NotPlayer));
             return true;
         }
 
@@ -52,7 +53,7 @@ public class TownyChat implements CommandExecutor {
 
             plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new TownyChatMessage("town", StringUtils.join(args, " "), to, town.getName(), (town.hasNation()) ? town.getNation().getName() : ""));
         } catch (NotRegisteredException e) {
-            commandSender.sendMessage("You are not in a Town");
+            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().Towny_NotInTown));
         }
 
 
