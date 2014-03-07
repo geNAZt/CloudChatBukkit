@@ -1,5 +1,6 @@
 package net.cubespace.CloudChatBukkit;
 
+import net.cubespace.CloudChatBukkit.Command.AFK;
 import net.cubespace.CloudChatBukkit.Command.FactionChat;
 import net.cubespace.CloudChatBukkit.Command.Log;
 import net.cubespace.CloudChatBukkit.Command.NationChat;
@@ -119,6 +120,10 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
             aliasesNation.add("nc");
             getCommand("nchat").setAliases(aliasesNation);
             getCommand("nchat").setExecutor(new NationChat(this));
+        }
+
+        if(config.HandleAFK) {
+            getCommand("afk").setExecutor(new AFK(this));
         }
 
         try {

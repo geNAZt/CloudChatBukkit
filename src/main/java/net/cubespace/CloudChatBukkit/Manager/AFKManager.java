@@ -24,7 +24,7 @@ public class AFKManager {
                 @Override
                 public void run() {
                     for(Map.Entry<Player, Long> playerLongEntry : new HashMap<Player, Long>(lastPlayerAction).entrySet()) {
-                        if(afkStatus.get(playerLongEntry.getKey()) != null && !afkStatus.get(playerLongEntry.getKey()) && System.currentTimeMillis() - playerLongEntry.getValue() > plugin.getConfig().getInt("AutoAFK") * 1000) {
+                        if(afkStatus.get(playerLongEntry.getKey()) != null && !afkStatus.get(playerLongEntry.getKey()) && System.currentTimeMillis() - playerLongEntry.getValue() > plugin.getMainConfig().AutoAFK * 1000) {
                             plugin.getPluginMessageManager("CloudChat").sendPluginMessage(playerLongEntry.getKey(), new AFKMessage(true));
                             afkStatus.put(playerLongEntry.getKey(), true);
                         }
