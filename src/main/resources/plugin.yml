@@ -28,7 +28,7 @@ commands:
         permission: cloudchat.command.log
         permission-message: You do not have permission to this Command
         usage: /<command>
-    afk
+    afk:
         description: Toggle AFK mode
         permission: cloudchat.command.afk
         permission-message: You do not have permission to this Command
