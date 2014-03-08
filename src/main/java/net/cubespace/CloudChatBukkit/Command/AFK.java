@@ -29,7 +29,7 @@ public class AFK implements CommandExecutor {
         if (plugin.getManagers().getAfkManager().isAFK(player)) {
             plugin.getManagers().getAfkManager().reset(player);
         } else {
-            plugin.getManagers().getAfkManager().add(player);
+            plugin.getManagers().getAfkManager().setAFK(player);
         }
 
         return true;

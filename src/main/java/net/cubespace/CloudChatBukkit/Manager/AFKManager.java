@@ -46,6 +46,20 @@ public class AFKManager {
         }
     }
 
+    public void setAFK(Player player) {
+        if(plugin.getMainConfig().HandleAFK) {
+            if(plugin.getMainConfig().AutoAFK > 0) {
+                lastPlayerAction.put(player, System.currentTimeMillis());
+            }
+
+
+            if(afkStatus.containsKey(player) && !afkStatus.get(player)) return;
+
+            afkStatus.put(player, true);
+            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AFKMessage(true));
+        }
+    }
+
     public void reset(Player player) {
         if(plugin.getMainConfig().HandleAFK) {
             if(plugin.getMainConfig().AutoAFK > 0) {
