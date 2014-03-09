@@ -28,7 +28,7 @@ public class LibraryPluginMessageListener implements PacketListener {
         for(PermissionAttachmentInfo permissionAttachment : player.getEffectivePermissions()) {
             String permission = permissionAttachment.getPermission();
 
-            if(permission.startsWith(permissionRequest.getPrefix())) {
+            if(permissionRequest.getPrefix().equals("") || permission.startsWith(permissionRequest.getPrefix())) {
                 plugin.getPluginMessageManager("CubespaceLibrary").sendPluginMessage(player, new PermissionResponse(permission, 1));
             }
         }
