@@ -1,5 +1,7 @@
 package net.cubespace.CloudChatBukkit;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import net.cubespace.CloudChatBukkit.Command.AFK;
 import net.cubespace.CloudChatBukkit.Command.FactionChat;
 import net.cubespace.CloudChatBukkit.Command.Log;
@@ -15,6 +17,7 @@ import net.cubespace.CloudChatBukkit.Listener.PlayerQuit;
 import net.cubespace.CloudChatBukkit.Listener.WorldChange;
 import net.cubespace.CloudChatBukkit.Manager.Managers;
 import net.cubespace.CloudChatBukkit.Message.LibraryPluginMessageListener;
+import net.cubespace.CloudChatBukkit.Message.LocalPlayersRequestListener;
 import net.cubespace.CloudChatBukkit.Message.PluginMessageListener;
 import net.cubespace.CloudChatBukkit.Message.PluginMessageManager;
 import net.cubespace.PluginMessages.AFKMessage;
@@ -24,17 +27,15 @@ import net.cubespace.PluginMessages.DispatchCmdMessage;
 import net.cubespace.PluginMessages.DispatchScmdMessage;
 import net.cubespace.PluginMessages.FactionChatMessage;
 import net.cubespace.PluginMessages.IgnoreMessage;
+import net.cubespace.PluginMessages.LocalPlayersRequest;
+import net.cubespace.PluginMessages.LocalPlayersResponse;
 import net.cubespace.PluginMessages.PermissionRequest;
 import net.cubespace.PluginMessages.PermissionResponse;
 import net.cubespace.PluginMessages.RespondScmdMessage;
-import net.cubespace.PluginMessages.SendChatMessage;
 import net.cubespace.PluginMessages.TownyChatMessage;
 import net.cubespace.PluginMessages.WorldMessage;
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
@@ -86,11 +87,18 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         pluginMessageManagers.get("CloudChat").addPacketToRegister(DispatchScmdMessage.class);
         pluginMessageManagers.get("CloudChat").addPacketToRegister(RespondScmdMessage.class);
         pluginMessageManagers.get("CloudChat").addPacketToRegister(IgnoreMessage.class);
-        pluginMessageManagers.get("CloudChat").addPacketToRegister(SendChatMessage.class);
         pluginMessageManagers.get("CloudChat").addPacketToRegister(ChatMessage.class);
         pluginMessageManagers.get("CloudChat").addPacketToRegister(TownyChatMessage.class);
+        //JR start
+        pluginMessageManagers.get("CloudChat").addPacketToRegister(LocalPlayersRequest.class);
+        pluginMessageManagers.get("CloudChat").addPacketToRegister(LocalPlayersResponse.class);
+        //JR end
         pluginMessageManagers.get("CloudChat").addListenerToRegister(new PluginMessageListener(this));
-
+        
+        //JR start
+        pluginMessageManagers.get("CloudChat").addListenerToRegister(new LocalPlayersRequestListener(this));
+        //JR end
+        
         //Register the Listener
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         getServer().getPluginManager().registerEvents(new PlayerQuit(this), this);

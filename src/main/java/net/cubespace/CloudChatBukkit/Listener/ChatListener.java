@@ -1,18 +1,13 @@
 package net.cubespace.CloudChatBukkit.Listener;
 
+import java.util.List;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.PluginMessages.ChatMessage;
 import net.cubespace.PluginMessages.FactionChatMessage;
-import net.cubespace.PluginMessages.SendChatMessage;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
@@ -30,16 +25,17 @@ public class ChatListener implements Listener {
         //If its already canceled here then Factions killed the message
         if(!event.isCancelled()) {
             event.setCancelled(true);
-
+            
             //Check if this Server is Factions enabled
             if(plugin.isFactions()) {
                 //Check in which mode the player is
                 String mode = plugin.getManagers().getFactionManager().getFactionMode(event.getPlayer());
 
                 if(mode.equals("global")) {
-                    if(!checkLocalChat(event)) {
+//JR start
+//Removed old local code
                         plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new FactionChatMessage("global", event.getMessage(), null, ""));
-                    }
+//JR end
                 }
 
                 if(mode.equals("faction")) {
@@ -69,44 +65,14 @@ public class ChatListener implements Listener {
 
                 return;
             } else {
-                if(!checkLocalChat(event)) {
+//JR start
+//Removed old local code
                     plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new ChatMessage(event.getMessage()));
-                }
+//JR end
             }
         }
 
         plugin.getManagers().getAfkManager().reset(event.getPlayer());
     }
 
-    private boolean checkLocalChat(AsyncPlayerChatEvent event) {
-        //Check if Server has Local Chat
-        if(plugin.getMainConfig().LocalChat) {
-            //Check which range to use (WorldRange > GlobalRange)
-            int range = plugin.getMainConfig().GlobalRange;
-
-            if(plugin.getMainConfig().WorldRanges.containsKey(event.getPlayer().getWorld().getName())) {
-                range = plugin.getMainConfig().WorldRanges.get(event.getPlayer().getWorld().getName());
-            }
-
-            if(range > 0) {
-                //Get all Entities nearby
-                List<Entity> entities = event.getPlayer().getNearbyEntities(range, range, range);
-                ArrayList<String> sendTo = new ArrayList<String>();
-
-                sendTo.add(event.getPlayer().getName());
-                for(Entity entity : entities) {
-                    if(entity instanceof Player) {
-                        if (!sendTo.contains(((Player) entity).getName())) {
-                            sendTo.add(((Player) entity).getName());
-                        }
-                    }
-                }
-
-                plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new SendChatMessage(event.getMessage(), sendTo));
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

@@ -2,7 +2,6 @@ package net.cubespace.CloudChatBukkit.Listener;
 
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.PluginMessages.AffixMessage;
-import net.cubespace.PluginMessages.IgnoreMessage;
 import net.cubespace.PluginMessages.WorldMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -51,18 +50,6 @@ public class PlayerJoin implements Listener {
                         plugin.getManagers().getWorldManager().getWorldAlias(event.getPlayer().getWorld())
                 ));
 
-                if(plugin.getMainConfig().LocalChat) {
-                    //Check which range to use (WorldRange > GlobalRange)
-                    int range = plugin.getMainConfig().GlobalRange;
-
-                    if(plugin.getMainConfig().WorldRanges.containsKey(event.getPlayer().getWorld().getName())) {
-                        range = plugin.getMainConfig().WorldRanges.get(event.getPlayer().getWorld().getName());
-                    }
-
-                    if (range > 0) {
-                        plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new IgnoreMessage(true));
-                    }
-                }
             }
         }, 10);
 
