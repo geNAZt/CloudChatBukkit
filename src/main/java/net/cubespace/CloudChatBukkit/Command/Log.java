@@ -16,7 +16,6 @@ import java.util.HashMap;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
- * @date Last changed: 13.01.14 14:55
  */
 public class Log implements CommandExecutor {
     private static ArrayList<CommandSender> senders = new ArrayList<CommandSender>();

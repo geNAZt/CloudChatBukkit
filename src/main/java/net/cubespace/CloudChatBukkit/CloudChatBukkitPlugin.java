@@ -1,7 +1,5 @@
 package net.cubespace.CloudChatBukkit;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import net.cubespace.CloudChatBukkit.Command.AFK;
 import net.cubespace.CloudChatBukkit.Command.FactionChat;
 import net.cubespace.CloudChatBukkit.Command.Log;
@@ -37,13 +35,19 @@ import net.cubespace.PluginMessages.WorldMessage;
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
  */
 public class CloudChatBukkitPlugin extends JavaPlugin {
     private Managers managers = null;
+
     private boolean factions;
     private boolean towny;
+    private boolean log = false;
+
     private HashMap<String, PluginMessageManager> pluginMessageManagers = new HashMap<String, PluginMessageManager>();
 
     private Main config;
@@ -138,6 +142,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
             Class.forName("org.apache.logging.log4j.core.Logger");
 
             getCommand("log").setExecutor(new Log(this));
+            log = true;
         } catch (ClassNotFoundException e) {}
 
         pluginMessageManagers.get("CloudChat").finish();
@@ -172,5 +177,9 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         if(factions) {
             managers.getFactionManager().save(this);
         }
+    }
+
+    public boolean isLog() {
+        return log;
     }
 }
