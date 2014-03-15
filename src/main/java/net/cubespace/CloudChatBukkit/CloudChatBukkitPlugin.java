@@ -30,6 +30,7 @@ import net.cubespace.PluginMessages.LocalPlayersResponse;
 import net.cubespace.PluginMessages.PermissionRequest;
 import net.cubespace.PluginMessages.PermissionResponse;
 import net.cubespace.PluginMessages.RespondScmdMessage;
+import net.cubespace.PluginMessages.SetNickMessage;
 import net.cubespace.PluginMessages.TownyChatMessage;
 import net.cubespace.PluginMessages.WorldMessage;
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
@@ -97,6 +98,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         pluginMessageManagers.get("CloudChat").addPacketToRegister(LocalPlayersRequest.class);
         pluginMessageManagers.get("CloudChat").addPacketToRegister(LocalPlayersResponse.class);
         //JR end
+        pluginMessageManagers.get("CloudChat").addPacketToRegister(SetNickMessage.class);
         pluginMessageManagers.get("CloudChat").addListenerToRegister(new PluginMessageListener(this));
         
         //JR start

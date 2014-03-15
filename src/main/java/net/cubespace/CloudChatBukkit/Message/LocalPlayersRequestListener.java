@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 /**
  * JR start
  * @author dimensionZ (webmaster@hatventures.net)
- * @date Last changed: 10.03.14 03:04
  */
 public class LocalPlayersRequestListener implements PacketListener
 {

@@ -6,12 +6,12 @@ import net.cubespace.CloudChatBukkit.CloudChatBukkitCommandSender;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.PluginMessages.DispatchCmdMessage;
 import net.cubespace.PluginMessages.DispatchScmdMessage;
+import net.cubespace.PluginMessages.SetNickMessage;
 
 import java.util.HashMap;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
- * @date Last changed: 02.01.14 04:26
  */
 public class PluginMessageListener implements PacketListener {
     private CloudChatBukkitPlugin plugin;
@@ -38,5 +38,10 @@ public class PluginMessageListener implements PacketListener {
 
         plugin.getLogger().info("Issuing SCMD: " + dispatchScmdMessage.getCommand());
         plugin.getServer().dispatchCommand(cloudChatBukkitCommandSender.get(cmd), dispatchScmdMessage.getCommand());
+    }
+
+    @PacketHandler
+    public void onSetNickMessage(SetNickMessage setNickMessage) {
+        setNickMessage.getSender().getBukkitPlayer().setDisplayName(setNickMessage.getNick());
     }
 }
