@@ -4,6 +4,7 @@ import com.iKeirNez.PluginMessageApiPlus.PacketHandler;
 import com.iKeirNez.PluginMessageApiPlus.PacketListener;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitCommandSender;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
+import net.cubespace.PluginMessages.AFKMessage;
 import net.cubespace.PluginMessages.DispatchCmdMessage;
 import net.cubespace.PluginMessages.DispatchScmdMessage;
 import net.cubespace.PluginMessages.SetNickMessage;
@@ -43,5 +44,13 @@ public class PluginMessageListener implements PacketListener {
     @PacketHandler
     public void onSetNickMessage(SetNickMessage setNickMessage) {
         setNickMessage.getSender().getBukkitPlayer().setDisplayName(setNickMessage.getNick());
+    }
+
+    @PacketHandler
+    public void onAFKStateMessage(AFKMessage afkMessage) {
+        if(!afkMessage.isAfk())
+            plugin.getManagers().getAfkManager().reset(afkMessage.getSender().getBukkitPlayer());
+        else
+            plugin.getManagers().getAfkManager().setAFK(afkMessage.getSender().getBukkitPlayer());
     }
 }
