@@ -15,6 +15,7 @@ public class AFKManager {
     private final CloudChatBukkitPlugin plugin;
     private final HashMap<Player, Long> lastPlayerAction = new HashMap<Player, Long>();
     private final HashMap<Player, Boolean> afkStatus = new HashMap<Player, Boolean>();
+    private final HashMap<Player, Long> cooldown = new HashMap<Player, Long>();
 
     public AFKManager(final CloudChatBukkitPlugin plugin) {
         this.plugin = plugin;
@@ -27,6 +28,13 @@ public class AFKManager {
                         if(afkStatus.get(playerLongEntry.getKey()) != null && !afkStatus.get(playerLongEntry.getKey()) && System.currentTimeMillis() - playerLongEntry.getValue() > plugin.getMainConfig().AutoAFK * 1000) {
                             plugin.getPluginMessageManager("CloudChat").sendPluginMessage(playerLongEntry.getKey(), new AFKMessage(true));
                             afkStatus.put(playerLongEntry.getKey(), true);
+                        }
+                    }
+
+                    Long time = System.currentTimeMillis();
+                    for(Map.Entry<Player, Long> cooldownEntry : new HashMap<Player, Long>(cooldown).entrySet()) {
+                        if (time > cooldownEntry.getValue()) {
+                            cooldown.remove(cooldownEntry.getKey());
                         }
                     }
                 }
@@ -87,5 +95,21 @@ public class AFKManager {
 
             plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AFKMessage(false));
         }
+    }
+
+    public void addCooldown(Player player) {
+        Integer cooldownTime = plugin.getMainConfig().Cooldown_AFKCommand;
+
+        if (cooldownTime > 0) {
+            cooldown.put(player, System.currentTimeMillis() + (cooldownTime * 1000));
+        }
+    }
+
+    public boolean hasCooldown(Player player) {
+        return cooldown.containsKey(player);
+    }
+
+    public Long getCooldown(Player player) {
+        return cooldown.get(player);
     }
 }

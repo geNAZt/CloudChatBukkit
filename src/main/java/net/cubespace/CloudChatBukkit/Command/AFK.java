@@ -26,11 +26,18 @@ public class AFK implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
+        if (plugin.getManagers().getAfkManager().hasCooldown(player)) {
+            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().Command_AFK_Cooldown.replace("%seconds", "" + Math.round(plugin.getManagers().getAfkManager().getCooldown(player) - System.currentTimeMillis() / 1000D))));
+            return true;
+        }
+
         if (plugin.getManagers().getAfkManager().isAFK(player)) {
             plugin.getManagers().getAfkManager().reset(player);
         } else {
             plugin.getManagers().getAfkManager().setAFK(player);
         }
+
+        plugin.getManagers().getAfkManager().addCooldown(player);
 
         return true;
     }

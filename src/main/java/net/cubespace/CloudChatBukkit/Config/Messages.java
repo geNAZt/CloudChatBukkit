@@ -14,6 +14,7 @@ public class Messages extends Config {
     }
 
     public String Command_NotPlayer = "You can do this only as a Player";
+    public String Command_AFK_Cooldown ="This command is currently on cooldown. You can use it again in %seconds Seconds";
     public String Announce_FactionMode = "You currently Chat to: %mode";
     public String Switch_FactionChat_Allies = "You now talk to your Allies";
     public String Switch_FactionChat_Faction = "You now talk to your Faction";

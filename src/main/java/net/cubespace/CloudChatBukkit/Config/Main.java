@@ -3,6 +3,7 @@ package net.cubespace.CloudChatBukkit.Config;
 import java.io.File;
 import java.util.HashMap;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
+import net.cubespace.Yamler.Config.Comment;
 import net.cubespace.Yamler.Config.Config;
 
 /**
@@ -17,6 +18,8 @@ public class Main extends Config {
     public boolean BlockPlayerQuit = false;
     public boolean HandleAFK = false;
     public Integer AutoAFK = 0;
+    @Comment("Cooldown in seconds")
+    public Integer Cooldown_AFKCommand = 0;
 //JR start
 //Removed now-useless local config
 //JR end
