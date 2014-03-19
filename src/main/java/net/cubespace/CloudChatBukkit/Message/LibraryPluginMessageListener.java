@@ -23,16 +23,14 @@ public class LibraryPluginMessageListener implements PacketListener {
     public void onPermissionRequest(PermissionRequest permissionRequest){
         Player player = permissionRequest.getSender().getBukkitPlayer();
 
-        plugin.getPluginMessageManager("CubespaceLibrary").sendPluginMessage(player, new PermissionResponse("", 0));
+        plugin.getPluginMessageManager("CL-CloudChatPlug").sendPluginMessage(player, new PermissionResponse("", 0));
 
         for(PermissionAttachmentInfo permissionAttachment : player.getEffectivePermissions()) {
             String permission = permissionAttachment.getPermission();
 
-            if(permissionRequest.getPrefix().equals("") || permission.startsWith(permissionRequest.getPrefix())) {
-                plugin.getPluginMessageManager("CubespaceLibrary").sendPluginMessage(player, new PermissionResponse(permission, 1));
-            }
+            plugin.getPluginMessageManager("CL-CloudChatPlug").sendPluginMessage(player, new PermissionResponse(permission, 1));
         }
 
-        plugin.getPluginMessageManager("CubespaceLibrary").sendPluginMessage(player, new PermissionResponse("", 2));
+        plugin.getPluginMessageManager("CL-CloudChatPlug").sendPluginMessage(player, new PermissionResponse("", 2));
     }
 }

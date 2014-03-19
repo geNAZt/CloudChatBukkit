@@ -8,7 +8,6 @@ import java.io.IOException;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
- * @date Last changed: 07.01.14 21:06
  */
 public class PermissionResponse extends StandardPacket {
     private String permission;

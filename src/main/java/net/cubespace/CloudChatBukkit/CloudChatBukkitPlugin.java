@@ -78,11 +78,11 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
         //Startup the PluginMessage Framework
         pluginMessageManagers.put("CloudChat", new PluginMessageManager(this, "CloudChat"));
-        pluginMessageManagers.put("CubespaceLibrary", new PluginMessageManager(this, "CubespaceLibrary"));
+        pluginMessageManagers.put("CL-CloudChatPlug", new PluginMessageManager(this, "CL-CloudChatPlug"));
 
-        pluginMessageManagers.get("CubespaceLibrary").addPacketToRegister(PermissionResponse.class);
-        pluginMessageManagers.get("CubespaceLibrary").addPacketToRegister(PermissionRequest.class);
-        pluginMessageManagers.get("CubespaceLibrary").addListenerToRegister(new LibraryPluginMessageListener(this));
+        pluginMessageManagers.get("CL-CloudChatPlug").addPacketToRegister(PermissionResponse.class);
+        pluginMessageManagers.get("CL-CloudChatPlug").addPacketToRegister(PermissionRequest.class);
+        pluginMessageManagers.get("CL-CloudChatPlug").addListenerToRegister(new LibraryPluginMessageListener(this));
 
         pluginMessageManagers.get("CloudChat").addPacketToRegister(AffixMessage.class);
         pluginMessageManagers.get("CloudChat").addPacketToRegister(AFKMessage.class);
@@ -148,7 +148,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         } catch (ClassNotFoundException e) {}
 
         pluginMessageManagers.get("CloudChat").finish();
-        pluginMessageManagers.get("CubespaceLibrary").finish();
+        pluginMessageManagers.get("CL-CloudChatPlug").finish();
     }
 
     public Managers getManagers() {
