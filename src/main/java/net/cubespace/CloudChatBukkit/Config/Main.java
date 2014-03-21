@@ -1,10 +1,11 @@
 package net.cubespace.CloudChatBukkit.Config;
 
-import java.io.File;
-import java.util.HashMap;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.Yamler.Config.Comment;
 import net.cubespace.Yamler.Config.Config;
+
+import java.io.File;
+import java.util.HashMap;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
@@ -20,6 +21,8 @@ public class Main extends Config {
     public Integer AutoAFK = 0;
     @Comment("Cooldown in seconds")
     public Integer Cooldown_AFKCommand = 0;
+    @Comment("Relay chat into logs")
+    public Boolean LogChat = false;
 //JR start
 //Removed now-useless local config
 //JR end

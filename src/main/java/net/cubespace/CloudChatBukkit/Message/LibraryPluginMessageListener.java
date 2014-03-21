@@ -10,7 +10,6 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
- * @date Last changed: 02.01.14 04:26
  */
 public class LibraryPluginMessageListener implements PacketListener {
     private CloudChatBukkitPlugin plugin;
@@ -27,6 +26,10 @@ public class LibraryPluginMessageListener implements PacketListener {
 
         for(PermissionAttachmentInfo permissionAttachment : player.getEffectivePermissions()) {
             String permission = permissionAttachment.getPermission();
+
+            if (!permissionAttachment.getValue()) {
+                permission = "-" + permission;
+            }
 
             plugin.getPluginMessageManager("CL-CloudChatPlug").sendPluginMessage(player, new PermissionResponse(permission, 1));
         }

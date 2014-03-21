@@ -1,6 +1,7 @@
 package net.cubespace.CloudChatBukkit;
 
 import net.cubespace.CloudChatBukkit.Command.AFK;
+import net.cubespace.CloudChatBukkit.Command.CCBReload;
 import net.cubespace.CloudChatBukkit.Command.FactionChat;
 import net.cubespace.CloudChatBukkit.Command.Log;
 import net.cubespace.CloudChatBukkit.Command.NationChat;
@@ -139,6 +140,8 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         if(config.HandleAFK) {
             getCommand("afk").setExecutor(new AFK(this));
         }
+
+        getCommand("ccb:reload").setExecutor(new CCBReload(this));
 
         try {
             Class.forName("org.apache.logging.log4j.core.Logger");
