@@ -141,7 +141,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
             getCommand("afk").setExecutor(new AFK(this));
         }
 
-        getCommand("ccb:reload").setExecutor(new CCBReload(this));
+        getCommand("ccbreload").setExecutor(new CCBReload(this));
 
         try {
             Class.forName("org.apache.logging.log4j.core.Logger");

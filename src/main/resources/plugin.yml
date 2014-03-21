@@ -33,7 +33,7 @@ commands:
         permission: cloudchat.command.afk
         permission-message: You do not have permission to this Command
         usage: /<command>
-    'ccb:reload':
+    ccbreload:
         description: Reload the config on this node
         permission: cloudchat.command.ccb.reload
         permission-message: You do not have permission to this Command
