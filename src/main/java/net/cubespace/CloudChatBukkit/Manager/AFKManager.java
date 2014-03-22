@@ -20,20 +20,22 @@ public class AFKManager {
     public AFKManager(final CloudChatBukkitPlugin plugin) {
         this.plugin = plugin;
 
-        if(plugin.getMainConfig().HandleAFK && plugin.getMainConfig().AutoAFK > 0) {
+        if(plugin.getMainConfig().HandleAFK) {
             plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
                 @Override
                 public void run() {
-                    for(Map.Entry<Player, Long> playerLongEntry : new HashMap<Player, Long>(lastPlayerAction).entrySet()) {
-                        if(afkStatus.get(playerLongEntry.getKey()) != null && !afkStatus.get(playerLongEntry.getKey()) && System.currentTimeMillis() - playerLongEntry.getValue() > plugin.getMainConfig().AutoAFK * 1000) {
-                            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(playerLongEntry.getKey(), new AFKMessage(true));
-                            afkStatus.put(playerLongEntry.getKey(), true);
+                    if (plugin.getMainConfig().AutoAFK > 0) {
+                        for(Map.Entry<Player, Long> playerLongEntry : new HashMap<Player, Long>(lastPlayerAction).entrySet()) {
+                            if(afkStatus.get(playerLongEntry.getKey()) != null && !afkStatus.get(playerLongEntry.getKey()) && System.currentTimeMillis() - playerLongEntry.getValue() > plugin.getMainConfig().AutoAFK * 1000) {
+                                plugin.getPluginMessageManager("CloudChat").sendPluginMessage(playerLongEntry.getKey(), new AFKMessage(true));
+                                afkStatus.put(playerLongEntry.getKey(), true);
+                            }
                         }
                     }
 
                     Long time = System.currentTimeMillis();
                     for(Map.Entry<Player, Long> cooldownEntry : new HashMap<Player, Long>(cooldown).entrySet()) {
-                        if (time > cooldownEntry.getValue()) {
+                        if (cooldownEntry.getValue() - time < 200) {
                             cooldown.remove(cooldownEntry.getKey());
                         }
                     }
