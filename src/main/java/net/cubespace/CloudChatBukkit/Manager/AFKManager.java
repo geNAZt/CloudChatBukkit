@@ -27,8 +27,7 @@ public class AFKManager {
                     if (plugin.getMainConfig().AutoAFK > 0) {
                         for(Map.Entry<Player, Long> playerLongEntry : new HashMap<Player, Long>(lastPlayerAction).entrySet()) {
                             if(afkStatus.get(playerLongEntry.getKey()) != null && !afkStatus.get(playerLongEntry.getKey()) && System.currentTimeMillis() - playerLongEntry.getValue() > plugin.getMainConfig().AutoAFK * 1000) {
-                                plugin.getPluginMessageManager("CloudChat").sendPluginMessage(playerLongEntry.getKey(), new AFKMessage(true));
-                                afkStatus.put(playerLongEntry.getKey(), true);
+                                setAFK(playerLongEntry.getKey());
                             }
                         }
                     }
@@ -81,6 +80,11 @@ public class AFKManager {
 
     public boolean isAFK(Player player) {
         if(!plugin.getMainConfig().HandleAFK) {
+            return false;
+        }
+
+        if (player == null) {
+            plugin.getLogger().warning("Got a isAFK check for a null Player");
             return false;
         }
 

@@ -1,5 +1,7 @@
 package net.cubespace.CloudChatBukkit.Listener;
 
+import net.cubespace.CloudChatBukkit.API.Event.AffixPreSendEvent;
+import net.cubespace.CloudChatBukkit.API.Event.WorldPreSendEvent;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.PluginMessages.AffixMessage;
 import net.cubespace.PluginMessages.WorldMessage;
@@ -36,20 +38,39 @@ public class PlayerJoin implements Listener {
                     String nation = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getNation(event.getPlayer()) : "";
                     String faction = (plugin.isFactions()) ? plugin.getManagers().getFactionManager().getFaction(event.getPlayer()) : "";
 
-                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new AffixMessage(
+                    AffixPreSendEvent affixPreSendEvent = new AffixPreSendEvent(
                             plugin.getManagers().getAffixManager().getPrefix(event.getPlayer()),
                             plugin.getManagers().getAffixManager().getSuffix(event.getPlayer()),
-                            town,
+                            faction,
                             nation,
-                            faction
-                    ));
+                            town
+                    );
+
+                    plugin.getServer().getPluginManager().callEvent(affixPreSendEvent);
+                    if (!affixPreSendEvent.isCancelled()) {
+                        plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new AffixMessage(
+                                affixPreSendEvent.getPrefix(),
+                                affixPreSendEvent.getSuffix(),
+                                affixPreSendEvent.getTown(),
+                                affixPreSendEvent.getNation(),
+                                affixPreSendEvent.getFaction()
+                        ));
+                    }
                 }
 
-                plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new WorldMessage(
+                WorldPreSendEvent worldPreSendEvent = new WorldPreSendEvent(
                         plugin.getManagers().getWorldManager().getWorldName(event.getPlayer().getWorld()),
                         plugin.getManagers().getWorldManager().getWorldAlias(event.getPlayer().getWorld())
-                ));
+                );
 
+                plugin.getServer().getPluginManager().callEvent(worldPreSendEvent);
+
+                if (!worldPreSendEvent.isCancelled()) {
+                    plugin.getPluginMessageManager("CloudChat").sendPluginMessage(event.getPlayer(), new WorldMessage(
+                            worldPreSendEvent.getWorld(),
+                            worldPreSendEvent.getAlias()
+                    ));
+                }
             }
         }, 10);
 

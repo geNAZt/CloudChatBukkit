@@ -22,6 +22,7 @@ import net.cubespace.CloudChatBukkit.Message.PluginMessageManager;
 import net.cubespace.PluginMessages.AFKMessage;
 import net.cubespace.PluginMessages.AffixMessage;
 import net.cubespace.PluginMessages.ChatMessage;
+import net.cubespace.PluginMessages.CustomFormatMessage;
 import net.cubespace.PluginMessages.DispatchCmdMessage;
 import net.cubespace.PluginMessages.DispatchScmdMessage;
 import net.cubespace.PluginMessages.FactionChatMessage;
@@ -54,6 +55,8 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
     private Main config;
     private Messages messages;
+
+    private static CloudChatBukkitPlugin instance;
 
     @Override
     public void onEnable() {
@@ -101,6 +104,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         //JR end
         pluginMessageManagers.get("CloudChat").addPacketToRegister(SetNickMessage.class);
         pluginMessageManagers.get("CloudChat").addListenerToRegister(new PluginMessageListener(this));
+        pluginMessageManagers.get("CloudChat").addPacketToRegister(CustomFormatMessage.class);
         
         //JR start
         pluginMessageManagers.get("CloudChat").addListenerToRegister(new LocalPlayersRequestListener(this));
@@ -152,6 +156,8 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
 
         pluginMessageManagers.get("CloudChat").finish();
         pluginMessageManagers.get("CL-CloudChatPlug").finish();
+
+        instance = this;
     }
 
     public Managers getManagers() {
@@ -182,9 +188,15 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         if(factions) {
             managers.getFactionManager().save(this);
         }
+
+        instance = null;
     }
 
     public boolean isLog() {
         return log;
+    }
+
+    public static CloudChatBukkitPlugin getInstance() {
+        return instance;
     }
 }

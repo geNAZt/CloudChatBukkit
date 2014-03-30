@@ -2,6 +2,7 @@ package net.cubespace.CloudChatBukkit.Manager;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import net.cubespace.CloudChatBukkit.API.Event.AffixPreSendEvent;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.CloudChatBukkit.Manager.AffixManagers.BungeePermsManager;
 import net.cubespace.CloudChatBukkit.Manager.AffixManagers.VaultManager;
@@ -74,16 +75,27 @@ public class Managers {
                         String faction = (plugin.isFactions()) ? plugin.getManagers().getFactionManager().getFaction(player) : "";
 
                         if (!tableCell.getColumnKey().equals(prefix) || !tableCell.getValue().equals(suffix)) {
-                            plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AffixMessage(
+                            AffixPreSendEvent affixPreSendEvent = new AffixPreSendEvent(
                                     prefix,
                                     suffix,
-                                    town,
+                                    faction,
                                     nation,
-                                    faction
-                            ));
+                                    town
+                            );
 
-                            affixTable.row(tableCell.getRowKey()).remove(prefix);
-                            affixTable.row(tableCell.getRowKey()).put(prefix, suffix);
+                            plugin.getServer().getPluginManager().callEvent(affixPreSendEvent);
+                            if (!affixPreSendEvent.isCancelled()) {
+                                plugin.getPluginMessageManager("CloudChat").sendPluginMessage(player, new AffixMessage(
+                                        affixPreSendEvent.getPrefix(),
+                                        affixPreSendEvent.getSuffix(),
+                                        affixPreSendEvent.getTown(),
+                                        affixPreSendEvent.getNation(),
+                                        affixPreSendEvent.getFaction()
+                                ));
+
+                                affixTable.row(tableCell.getRowKey()).remove(prefix);
+                                affixTable.row(tableCell.getRowKey()).put(prefix, suffix);
+                            }
                         }
                     }
                 }
