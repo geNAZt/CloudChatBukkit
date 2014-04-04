@@ -1,7 +1,5 @@
 package net.cubespace.CloudChatBukkit.Manager;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import net.cubespace.CloudChatBukkit.API.Event.AffixPreSendEvent;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.CloudChatBukkit.Manager.AffixManagers.BungeePermsManager;
@@ -9,8 +7,11 @@ import net.cubespace.CloudChatBukkit.Manager.AffixManagers.VaultManager;
 import net.cubespace.CloudChatBukkit.Manager.WorldManagers.BukkitWorldManager;
 import net.cubespace.CloudChatBukkit.Manager.WorldManagers.MultiverseWorldManager;
 import net.cubespace.PluginMessages.AffixMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
+
+import java.util.HashMap;
 
 public class Managers {
     private CloudChatBukkitPlugin plugin;
@@ -19,7 +20,7 @@ public class Managers {
     private AFKManager afkManager;
     private FactionManager factionManager;
     private TownyManager townyManager;
-    private Table<String, String, String> affixTable = HashBasedTable.create();
+    private HashMap<String, String> affixTable = new HashMap<String, String>();
 
     public Managers(final CloudChatBukkitPlugin plugin) {
         this.plugin = plugin;
@@ -57,24 +58,19 @@ public class Managers {
                 public void run() {
                     //Add new Players to the Table
                     for (Player player : plugin.getServer().getOnlinePlayers()) {
-                        affixTable.put(player.getName(), plugin.getManagers().getAffixManager().getPrefix(player), plugin.getManagers().getAffixManager().getSuffix(player));
-                    }
-
-                    //Check for Changes
-                    for (Table.Cell<String, String, String> tableCell : HashBasedTable.create(affixTable).cellSet()) {
-                        if (plugin.getServer().getPlayerExact(tableCell.getRowKey()) == null) {
-                            affixTable.remove(tableCell.getRowKey(), tableCell.getColumnKey());
-                            continue;
+                        if (!affixTable.containsKey(player.getName())) {
+                            affixTable.put(player.getName(), plugin.getManagers().getAffixManager().getPrefix(player) + "/" + plugin.getManagers().getAffixManager().getSuffix(player));
                         }
 
-                        Player player = plugin.getServer().getPlayerExact(tableCell.getRowKey());
-                        String prefix = plugin.getManagers().getAffixManager().getPrefix(player);
-                        String suffix = plugin.getManagers().getAffixManager().getSuffix(player);
-                        String town = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getTown(player) : "";
-                        String nation = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getNation(player) : "";
-                        String faction = (plugin.isFactions()) ? plugin.getManagers().getFactionManager().getFaction(player) : "";
+                        String newPair = plugin.getManagers().getAffixManager().getPrefix(player) + "/" + plugin.getManagers().getAffixManager().getSuffix(player);
 
-                        if (!tableCell.getColumnKey().equals(prefix) || !tableCell.getValue().equals(suffix)) {
+                        if (!affixTable.get(player.getName()).equals(newPair)) {
+                            String prefix = plugin.getManagers().getAffixManager().getPrefix(player);
+                            String suffix = plugin.getManagers().getAffixManager().getSuffix(player);
+                            String town = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getTown(player) : "";
+                            String nation = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getNation(player) : "";
+                            String faction = (plugin.isFactions()) ? plugin.getManagers().getFactionManager().getFaction(player) : "";
+
                             AffixPreSendEvent affixPreSendEvent = new AffixPreSendEvent(
                                     prefix,
                                     suffix,
@@ -93,9 +89,15 @@ public class Managers {
                                         affixPreSendEvent.getFaction()
                                 ));
 
-                                affixTable.row(tableCell.getRowKey()).remove(prefix);
-                                affixTable.row(tableCell.getRowKey()).put(prefix, suffix);
+                                affixTable.put(player.getName(), newPair);
                             }
+                        }
+                    }
+
+                    //Check for Changes
+                    for (String player : new HashMap<String, String>(affixTable).keySet()) {
+                        if (Bukkit.getPlayerExact(player) == null) {
+                            affixTable.remove(player);
                         }
                     }
                 }
