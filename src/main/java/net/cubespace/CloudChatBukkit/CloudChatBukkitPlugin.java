@@ -32,6 +32,7 @@ import net.cubespace.PluginMessages.LocalPlayersRequest;
 import net.cubespace.PluginMessages.LocalPlayersResponse;
 import net.cubespace.PluginMessages.PermissionRequest;
 import net.cubespace.PluginMessages.PermissionResponse;
+import net.cubespace.PluginMessages.PlaySound;
 import net.cubespace.PluginMessages.RespondScmdMessage;
 import net.cubespace.PluginMessages.SetNickMessage;
 import net.cubespace.PluginMessages.TownyChatMessage;
@@ -104,9 +105,10 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         pluginMessageManagers.get("CloudChat").addPacketToRegister(LocalPlayersResponse.class);
         //JR end
         pluginMessageManagers.get("CloudChat").addPacketToRegister(SetNickMessage.class);
-        pluginMessageManagers.get("CloudChat").addListenerToRegister(new PluginMessageListener(this));
         pluginMessageManagers.get("CloudChat").addPacketToRegister(CustomFormatMessage.class);
-        
+        pluginMessageManagers.get("CloudChat").addPacketToRegister(PlaySound.class);
+
+        pluginMessageManagers.get("CloudChat").addListenerToRegister(new PluginMessageListener(this));
         //JR start
         pluginMessageManagers.get("CloudChat").addListenerToRegister(new LocalPlayersRequestListener(this));
         //JR end

@@ -7,7 +7,9 @@ import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.PluginMessages.AFKMessage;
 import net.cubespace.PluginMessages.DispatchCmdMessage;
 import net.cubespace.PluginMessages.DispatchScmdMessage;
+import net.cubespace.PluginMessages.PlaySound;
 import net.cubespace.PluginMessages.SetNickMessage;
+import org.bukkit.Effect;
 
 import java.util.HashMap;
 
@@ -52,5 +54,13 @@ public class PluginMessageListener implements PacketListener {
             plugin.getManagers().getAfkManager().reset(afkMessage.getSender().getBukkitPlayer());
         else
             plugin.getManagers().getAfkManager().setAFK(afkMessage.getSender().getBukkitPlayer());
+    }
+
+    @PacketHandler
+    public void onPlaySound(PlaySound playSound) {
+        Effect effect = Effect.valueOf(playSound.sound);
+        if (effect != null) {
+            playSound.getSender().getBukkitPlayer().playEffect(playSound.getSender().getBukkitPlayer().getLocation(), effect, 1);
+        }
     }
 }
