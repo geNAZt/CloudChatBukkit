@@ -10,6 +10,7 @@ import net.cubespace.CloudChatBukkit.Config.Main;
 import net.cubespace.CloudChatBukkit.Config.Messages;
 import net.cubespace.CloudChatBukkit.Listener.ChatListener;
 import net.cubespace.CloudChatBukkit.Listener.EntityDamage;
+import net.cubespace.CloudChatBukkit.Listener.EntityTarget;
 import net.cubespace.CloudChatBukkit.Listener.PlayerJoin;
 import net.cubespace.CloudChatBukkit.Listener.PlayerMove;
 import net.cubespace.CloudChatBukkit.Listener.PlayerQuit;
@@ -119,6 +120,7 @@ public class CloudChatBukkitPlugin extends JavaPlugin {
         if(getConfig().getBoolean("HandleAFK", false)) {
             getServer().getPluginManager().registerEvents(new PlayerMove(this), this);
             getServer().getPluginManager().registerEvents(new EntityDamage(this), this);
+            getServer().getPluginManager().registerEvents(new EntityTarget(this), this);
         }
 
         if(isFactions()) {

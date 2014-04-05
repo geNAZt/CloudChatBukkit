@@ -6,7 +6,7 @@
 
     <groupId>net.cubespace</groupId>
     <artifactId>CloudChatBukkit</artifactId>
-    <version>3.2.1</version>
+    <version>3.3.0</version>
 
     <build>
         <defaultGoal>clean install</defaultGoal>

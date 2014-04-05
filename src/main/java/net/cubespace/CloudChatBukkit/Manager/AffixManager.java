@@ -8,4 +8,5 @@ import org.bukkit.entity.Player;
 public interface AffixManager {
     public String getPrefix(Player player);
     public String getSuffix(Player player);
+    public String getGroup(Player player);
 }

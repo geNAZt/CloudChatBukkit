@@ -8,7 +8,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
- * @date Last changed: 14.12.13 20:29
  */
 public class VaultManager implements AffixManager {
     private Chat chat;
@@ -18,7 +17,7 @@ public class VaultManager implements AffixManager {
 
         chat = chatProvider.getProvider();
 
-        plugin.getLogger().info("Using Vault as Affix Manager");
+        plugin.getLogger().info("Using Vault as Affix Manager. Provider: " + chat.getName());
     }
 
     @Override
@@ -45,5 +44,10 @@ public class VaultManager implements AffixManager {
         }
 
         return "";
+    }
+
+    @Override
+    public String getGroup(Player player) {
+        return chat.getPrimaryGroup(player);
     }
 }

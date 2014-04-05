@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
- * @date Last changed: 14.12.13 20:26
  */
 public class BungeePermsManager implements AffixManager {
     private CloudChatBukkitPlugin plugin;
@@ -46,5 +45,20 @@ public class BungeePermsManager implements AffixManager {
         }
 
         return user.getGroups().get(0).getSuffix();
+    }
+
+    @Override
+    public String getGroup(Player player) {
+        BungeePerms bungeePerms = (BungeePerms) plugin.getServer().getPluginManager().getPlugin("BungeePermsBukkit");
+        if(bungeePerms == null) {
+            return "";
+        }
+
+        User user = bungeePerms.getPermissionsManager().getUser(player.getName());
+        if(user == null) {
+            return "";
+        }
+
+        return user.getGroups().get(0).getName();
     }
 }
