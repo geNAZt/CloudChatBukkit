@@ -19,13 +19,15 @@ public class AffixPreSendEvent extends Event implements Cancellable {
     private String faction;
     private String nation;
     private String town;
+    private String group;
 
-    public AffixPreSendEvent(String prefix, String suffix, String faction, String nation, String town) {
+    public AffixPreSendEvent(String prefix, String suffix, String faction, String nation, String town, String group) {
         this.prefix = prefix;
         this.suffix = suffix;
         this.faction = faction;
         this.nation = nation;
         this.town = town;
+        this.group = group;
     }
 
     public String getPrefix() {
@@ -66,6 +68,14 @@ public class AffixPreSendEvent extends Event implements Cancellable {
 
     public void setTown(String town) {
         this.town = town;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     @Override

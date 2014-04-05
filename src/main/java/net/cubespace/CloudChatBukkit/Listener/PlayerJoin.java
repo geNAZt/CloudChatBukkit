@@ -43,7 +43,8 @@ public class PlayerJoin implements Listener {
                             plugin.getManagers().getAffixManager().getSuffix(event.getPlayer()),
                             faction,
                             nation,
-                            town
+                            town,
+                            plugin.getManagers().getAffixManager().getGroup(event.getPlayer())
                     );
 
                     plugin.getServer().getPluginManager().callEvent(affixPreSendEvent);
@@ -53,7 +54,8 @@ public class PlayerJoin implements Listener {
                                 affixPreSendEvent.getSuffix(),
                                 affixPreSendEvent.getTown(),
                                 affixPreSendEvent.getNation(),
-                                affixPreSendEvent.getFaction()
+                                affixPreSendEvent.getFaction(),
+                                affixPreSendEvent.getGroup()
                         ));
                     }
                 }

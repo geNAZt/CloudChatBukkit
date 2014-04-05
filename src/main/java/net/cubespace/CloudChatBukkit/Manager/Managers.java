@@ -70,13 +70,15 @@ public class Managers {
                             String town = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getTown(player) : "";
                             String nation = (plugin.isTowny()) ? plugin.getManagers().getTownyManager().getNation(player) : "";
                             String faction = (plugin.isFactions()) ? plugin.getManagers().getFactionManager().getFaction(player) : "";
+                            String group = plugin.getManagers().getAffixManager().getGroup(player);
 
                             AffixPreSendEvent affixPreSendEvent = new AffixPreSendEvent(
                                     prefix,
                                     suffix,
                                     faction,
                                     nation,
-                                    town
+                                    town,
+                                    group
                             );
 
                             plugin.getServer().getPluginManager().callEvent(affixPreSendEvent);
@@ -86,7 +88,8 @@ public class Managers {
                                         affixPreSendEvent.getSuffix(),
                                         affixPreSendEvent.getTown(),
                                         affixPreSendEvent.getNation(),
-                                        affixPreSendEvent.getFaction()
+                                        affixPreSendEvent.getFaction(),
+                                        affixPreSendEvent.getGroup()
                                 ));
 
                                 affixTable.put(player.getName(), newPair);
