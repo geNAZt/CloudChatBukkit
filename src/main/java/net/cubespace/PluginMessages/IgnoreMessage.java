@@ -20,12 +20,12 @@ public class IgnoreMessage extends StandardPacket {
     }
 
     @Override
-    protected void handle(DataInputStream dataInputStream) throws IOException {
+    public void handle(DataInputStream dataInputStream) throws IOException {
         this.ignore = dataInputStream.readBoolean();
     }
 
     @Override
-    protected PacketWriter write() throws IOException {
+    public PacketWriter write() throws IOException {
         PacketWriter packetWriter = new PacketWriter(this);
         packetWriter.writeBoolean(ignore);
         return packetWriter;

@@ -20,12 +20,12 @@ public class SetNickMessage extends StandardPacket {
     }
 
     @Override
-    protected void handle(DataInputStream dataInputStream) throws IOException {
+    public void handle(DataInputStream dataInputStream) throws IOException {
         this.nick = dataInputStream.readUTF();
     }
 
     @Override
-    protected PacketWriter write() throws IOException {
+    public PacketWriter write() throws IOException {
         PacketWriter packetWriter = new PacketWriter(this);
         packetWriter.writeUTF(nick);
         return packetWriter;

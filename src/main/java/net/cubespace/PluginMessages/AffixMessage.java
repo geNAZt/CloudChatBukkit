@@ -50,7 +50,7 @@ public class AffixMessage extends StandardPacket {
     }
 
     @Override
-    protected void handle(DataInputStream dataInputStream) throws IOException {
+    public void handle(DataInputStream dataInputStream) throws IOException {
         this.prefix = dataInputStream.readUTF();
         this.suffix = dataInputStream.readUTF();
         this.town = dataInputStream.readUTF();
@@ -60,7 +60,7 @@ public class AffixMessage extends StandardPacket {
     }
 
     @Override
-    protected PacketWriter write() throws IOException {
+    public PacketWriter write() throws IOException {
         PacketWriter packetWriter = new PacketWriter(this);
         packetWriter.writeUTF(prefix);
         packetWriter.writeUTF(suffix);

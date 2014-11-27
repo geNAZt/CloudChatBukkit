@@ -42,7 +42,7 @@ public class FactionChatMessage extends StandardPacket {
     }
 
     @Override
-    protected void handle(DataInputStream dataInputStream) throws IOException {
+    public void handle(DataInputStream dataInputStream) throws IOException {
         this.mode = dataInputStream.readUTF();
         this.message = dataInputStream.readUTF();
 
@@ -62,7 +62,7 @@ public class FactionChatMessage extends StandardPacket {
     }
 
     @Override
-    protected PacketWriter write() throws IOException {
+    public PacketWriter write() throws IOException {
         PacketWriter packetWriter = new PacketWriter(this);
         packetWriter.writeUTF(mode);
         packetWriter.writeUTF(message);

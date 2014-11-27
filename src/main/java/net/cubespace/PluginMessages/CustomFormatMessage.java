@@ -29,13 +29,13 @@ public class CustomFormatMessage extends StandardPacket {
     }
 
     @Override
-    protected void handle(DataInputStream inputStream) throws IOException {
+    public void handle(DataInputStream inputStream) throws IOException {
         format = inputStream.readUTF();
         value = inputStream.readUTF();
     }
 
     @Override
-    protected PacketWriter write() throws IOException {
+    public PacketWriter write() throws IOException {
         PacketWriter packetWriter = new PacketWriter(this);
         packetWriter.writeUTF(format);
         packetWriter.writeUTF(value);

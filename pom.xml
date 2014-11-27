@@ -75,11 +75,7 @@
         </repository>
         <repository>
             <id>vault-repo</id>
-            <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
-        </repository>
-        <repository>
-            <id>cubespace-repo</id>
-            <url>http://nexus.cube-space.net/content/repositories/snapshots/</url>
+            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
         </repository>
     </repositories>
 
@@ -101,7 +97,7 @@
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
-            <version>1.2.27</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>com.onarandombox.multiversecore</groupId>
@@ -113,14 +109,14 @@
         <dependency>
             <groupId>com.massivecraft.factions</groupId>
             <artifactId>Factions</artifactId>
-            <version>2.3.0</version>
+            <version>2.7.1</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Factions.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.massivecraft.factions</groupId>
             <artifactId>mcore</artifactId>
-            <version>7.0.1</version>
+            <version>2.7.1</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/mcore.jar</systemPath>
         </dependency>
@@ -141,12 +137,12 @@
         <dependency>
             <groupId>net.cubespace</groupId>
             <artifactId>Yamler-Core</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
+            <version>2.2.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.iKeirNez</groupId>
             <artifactId>PluginMessageApiPlus</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.11</version>
         </dependency>
     </dependencies>
 

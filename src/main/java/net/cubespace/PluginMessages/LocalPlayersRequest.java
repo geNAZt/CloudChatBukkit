@@ -32,14 +32,14 @@ public class LocalPlayersRequest extends StandardPacket {
     }
 
     @Override
-    protected void handle(DataInputStream dataInputStream) throws IOException {
+    public void handle(DataInputStream dataInputStream) throws IOException {
         this.message = dataInputStream.readUTF();
         this.channel = dataInputStream.readUTF();
         this.range = dataInputStream.readInt();
     }
 
     @Override
-    protected PacketWriter write() throws IOException {
+    public PacketWriter write() throws IOException {
         PacketWriter packetWriter = new PacketWriter(this);
         packetWriter.writeUTF(message);
         packetWriter.writeUTF(channel);

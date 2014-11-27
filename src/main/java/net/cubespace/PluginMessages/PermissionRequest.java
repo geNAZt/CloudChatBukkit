@@ -13,12 +13,12 @@ public class PermissionRequest extends StandardPacket {
     public PermissionRequest() {}
 
     @Override
-    protected void handle(DataInputStream dataInputStream) throws IOException {
+    public void handle(DataInputStream dataInputStream) throws IOException {
 
     }
 
     @Override
-    protected PacketWriter write() throws IOException {
+    public PacketWriter write() throws IOException {
         return new PacketWriter(this);
     }
 }

@@ -2,17 +2,14 @@ package net.cubespace.CloudChatBukkit.Manager;
 
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.FactionColls;
-import com.massivecraft.factions.entity.UPlayer;
+import com.massivecraft.factions.entity.FactionColl;
+import com.massivecraft.factions.entity.MPlayer;
 import net.cubespace.CloudChatBukkit.CloudChatBukkitPlugin;
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author geNAZt (fabian.fassbender42@googlemail.com)
@@ -30,8 +27,8 @@ public class FactionManager {
     public List<String> getFactionPlayers(Player player) {
         List<String> factionPlayers = new ArrayList<String>();
 
-        UPlayer uplayer = UPlayer.get(player);
-        for(Player ps : uplayer.getFaction().getOnlinePlayers()) {
+        MPlayer mPlayer = MPlayer.get(player);
+        for(Player ps : mPlayer.getFaction().getOnlinePlayers()) {
             factionPlayers.add(ps.getName());
         }
 
@@ -40,15 +37,17 @@ public class FactionManager {
 
     public List<String> getFactionAllyPlayers(Player player) {
         List<String> factionPlayers = new ArrayList<String>();
-        UPlayer uplayer = UPlayer.get(player);
-        Map<Rel, List<String>> rels = uplayer.getFaction().getFactionNamesPerRelation(uplayer.getFaction());
+        MPlayer mPlayer = MPlayer.get(player);
+        Map<Rel, List<String>> rels = mPlayer.getFaction().getRelationNames( mPlayer.getFaction(), new HashSet<Rel>(){{
+            add( Rel.ALLY );
+        }}, false);
 
-        for(Player ps : uplayer.getFaction().getOnlinePlayers()) {
+        for(Player ps : mPlayer.getFaction().getOnlinePlayers()) {
             if(!factionPlayers.contains(ps.getName())) factionPlayers.add(ps.getName());
         }
 
         for(String data : rels.get(Rel.ALLY)) {
-            Faction f = FactionColls.get().getForUniverse(uplayer.getFaction().getUniverse()).getByName(ChatColor.stripColor(data));
+            Faction f = FactionColl.get().getByName(ChatColor.stripColor(data));
             for(Player ps : f.getOnlinePlayers()) {
                 if(!factionPlayers.contains(ps.getName())) factionPlayers.add(ps.getName());
             }
@@ -59,15 +58,17 @@ public class FactionManager {
 
     public List<String> getFactionTrucePlayers(Player player) {
         List<String> factionPlayers = new ArrayList<String>();
-        UPlayer uplayer = UPlayer.get(player);
-        Map<Rel, List<String>> rels = uplayer.getFaction().getFactionNamesPerRelation(uplayer.getFaction());
+        MPlayer mPlayer = MPlayer.get(player);
+        Map<Rel, List<String>> rels = mPlayer.getFaction().getRelationNames( mPlayer.getFaction(), new HashSet<Rel>(){{
+            add( Rel.TRUCE );
+        }}, false);
 
-        for(Player ps : uplayer.getFaction().getOnlinePlayers()) {
+        for(Player ps : mPlayer.getFaction().getOnlinePlayers()) {
             if(!factionPlayers.contains(ps.getName())) factionPlayers.add(ps.getName());
         }
 
         for(String data : rels.get(Rel.TRUCE)) {
-            Faction f = FactionColls.get().getForUniverse(uplayer.getFaction().getUniverse()).getByName(ChatColor.stripColor(data));
+            Faction f = FactionColl.get().getByName(ChatColor.stripColor(data));
             for(Player ps : f.getOnlinePlayers()) {
                 if(!factionPlayers.contains(ps.getName())) factionPlayers.add(ps.getName());
             }
@@ -78,15 +79,18 @@ public class FactionManager {
 
     public List<String> getFactionEnemyPlayers(Player player) {
         List<String> factionPlayers = new ArrayList<String>();
-        UPlayer uplayer = UPlayer.get(player);
-        Map<Rel, List<String>> rels = uplayer.getFaction().getFactionNamesPerRelation(uplayer.getFaction());
+        MPlayer mPlayer = MPlayer.get(player);
+        Map<Rel, List<String>> rels = mPlayer.getFaction().getRelationNames( mPlayer.getFaction(), new HashSet<Rel>() {{
+            add( Rel.ENEMY );
+        }}, false );
 
-        for(Player ps : uplayer.getFaction().getOnlinePlayers()) {
+
+        for(Player ps : mPlayer.getFaction().getOnlinePlayers()) {
             if(!factionPlayers.contains(ps.getName())) factionPlayers.add(ps.getName());
         }
 
         for(String data : rels.get(Rel.ENEMY)) {
-            Faction f = FactionColls.get().getForUniverse(uplayer.getFaction().getUniverse()).getByName(ChatColor.stripColor(data));
+            Faction f = FactionColl.get().getByName(ChatColor.stripColor(data));
             for(Player ps : f.getOnlinePlayers()) {
                 if(!factionPlayers.contains(ps.getName())) factionPlayers.add(ps.getName());
             }
@@ -97,24 +101,22 @@ public class FactionManager {
 
     public List<String> getFactionAllyAndTrucePlayers(Player player) {
         List<String> factionPlayers = new ArrayList<String>();
-        UPlayer uplayer = UPlayer.get(player);
-        Map<Rel, List<String>> rels = uplayer.getFaction().getFactionNamesPerRelation(uplayer.getFaction());
+        MPlayer mPlayer = MPlayer.get(player);
+        Map<Rel, List<String>> rels = mPlayer.getFaction().getRelationNames( mPlayer.getFaction(), new HashSet<Rel>() {{
+            add( Rel.ALLY );
+            add( Rel.TRUCE );
+        }}, false );
 
-        for(Player ps : uplayer.getFaction().getOnlinePlayers()) {
+        for(Player ps : mPlayer.getFaction().getOnlinePlayers()) {
             if(!factionPlayers.contains(ps.getName())) factionPlayers.add(ps.getName());
         }
 
-        for(String data : rels.get(Rel.ALLY)) {
-            Faction f = FactionColls.get().getForUniverse(uplayer.getFaction().getUniverse()).getByName(ChatColor.stripColor(data));
-            for(Player ps : f.getOnlinePlayers()) {
-                if(!factionPlayers.contains(ps.getName())) factionPlayers.add(ps.getName());
-            }
-        }
-
-        for(String data : rels.get(Rel.TRUCE)) {
-            Faction f = FactionColls.get().getForUniverse(uplayer.getFaction().getUniverse()).getByName(ChatColor.stripColor(data));
-            for(Player ps : f.getOnlinePlayers()) {
-                if(!factionPlayers.contains(ps.getName())) factionPlayers.add(ps.getName());
+        for(List<String> data : rels.values()) {
+            for ( String fac : data ) {
+                Faction f = FactionColl.get().getByName(ChatColor.stripColor(fac));
+                for(Player ps : f.getOnlinePlayers()) {
+                    if(!factionPlayers.contains(ps.getName())) factionPlayers.add(ps.getName());
+                }
             }
         }
 
@@ -145,6 +147,6 @@ public class FactionManager {
     }
 
     public String getFaction(Player player) {
-        return UPlayer.get(player).getFaction().getName();
+        return MPlayer.get(player).getFaction().getName();
     }
 }
